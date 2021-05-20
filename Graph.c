@@ -1,3 +1,4 @@
+/* GrapheEcart.c */
 
 #include "GraphReseau.h"
 #include <stdio.h>
@@ -8,9 +9,11 @@ void buildGraph(FILE fichierDimacs, tabSommetsGR* T, int* source, int* sink, int
     
 }
 
-/* GrapheEcart.h */
+
+/* GraphReseau */
 
 
+/* GrapheEcart */
 void init_liste_graph_ecart(liste_graph_ecart * liste, int valeur_id_sommet_init) {
     liste -> head = NIL_mge;
     liste -> id = valeur_id_sommet_init;
@@ -97,5 +100,9 @@ void updateFlowInRG(Chemin chemin, int k, tabSommetsGE graph_ecart) {
         id_sommet = M_c -> id;
         M_c = M_c -> next;
     }
-    
 }
+
+/* Chemin */
+// void shortestPath() { // ajouter la capacité en plus de ce qui était déjà fait
+//     
+// }
