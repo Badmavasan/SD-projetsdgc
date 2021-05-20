@@ -47,12 +47,20 @@ void clear_liste_graph_ecart(liste_graph_ecart liste, int valeur_id_sommet_init)
 void buildRG(tabSommetsGR reseau, int n, tabSommetsGE graph_ecart) {
     for (int i = 0 ; i < n ; i += 1) {
         init_liste_graph_ecart(tabSommetsGE[i], i + 1);
-        struct maillon_graph_reseau M_r = tabSommetsGR[i] -> head;
+        struct maillon_graph_reseau * M_r = tabSommetsGR[i] -> head;
         while (M_r != NIL_mr) {
-            
+            if (M_r -> capacite - M_r -> flot) {
+                ajout_en_tete_graph_ecart(tabSommetsGE[i], M_r -> id, M_r -> capacite);
+            }
+            M_r = M_r -> next;
         }
     }
 }
 
-void updateFlowInRG(Chemin chemin, int k, tabSommetsGE graph_ecart);
+void updateFlowInRG(Chemin chemin, int k, tabSommetsGE graph_ecart) {
+    int id_sommet;
+    struct maillon_chemin;
+    struct maillon_graph_ecart;
+    
+}
 
