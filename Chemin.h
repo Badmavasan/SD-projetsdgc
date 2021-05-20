@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#define N 10
 #define NIL_lc (struct liste_chemin *) 0
 #define NIL_mc (struct maillon_chemin *) 0
 
@@ -17,3 +18,5 @@ struct liste_chemin {
     int id;
     struct maillon_chemin * head;
 };
+
+typedef tabSommetsC liste_chemin[N];
