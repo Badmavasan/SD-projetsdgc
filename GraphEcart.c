@@ -58,9 +58,12 @@ void buildRG(tabSommetsGR reseau, int n, tabSommetsGE graph_ecart) {
 }
 
 void updateFlowInRG(Chemin chemin, int k, tabSommetsGE graph_ecart) {
-    int id_sommet;
-    struct maillon_chemin;
-    struct maillon_graph_ecart;
+    int id_sommet = chemin -> head -> id;
+    struct maillon_chemin M_c = chemin -> head -> next;
+//     struct maillon_graph_ecart M_ge;
+    while (M_c != NIL_mc) {
+        
+    }
     
 }
 
