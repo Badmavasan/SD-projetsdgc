@@ -1,5 +1,6 @@
 
 #include "GraphReseau.h"
+#include "GraphEcart.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -8,7 +9,64 @@ void buildGraph(FILE fichierDimacs, tabSommetsGR* T, int* source, int* sink, int
     
 }
 
-/* GrapheEcart.h */
+int minCapa (struct liste_chemin* LC)
+{
+    struct maillon_chemin* M;
+    
+    
+    prec_id = 
+}
+
+int getCapacityById(int initial, int terminal, tabSommetsGR* GR)
+{
+    struct maillon_reseau* M;
+    M = GR[initial -1]->head;
+    while(M!=NIL_mr && M->id != terminal)
+    {
+        M = m->next;
+    }
+    if(M==NIL_mr)
+    {
+        return -1;
+    }
+    else
+    {
+        return M->capacite;
+    }
+}
+
+void updateFlowInNet(tabSommetsGR* GR, tabSommetsGE* GE,int n)
+{
+    struct maillon_reseau* M;
+    for(int i=0; i<n ;i++)
+    {
+        M = GR[i]->head;
+        
+        while(M!=NIL_mr)
+        {
+            M->flot = getFlotFromGraphEc(i,M->id,GE);
+        }
+    }
+}
+
+
+int getFlotFromGraphEc(int initial, int terminal, tabSommetsGE T )
+{
+    struct maillon_grpah_reseau * M = (struct maillon_graph_reseau *) malloc(sizeof(struct maillon_graph_reseau));
+    M = T[terminal - 1]->head;
+    while(M!=NIL_mge && M->id != initial)
+    {
+        M = M->next;
+    }
+    if(M!=NIL_mge){
+        return M->flot_entrant;
+    }
+    else{
+        retourner 0;
+    }
+}
+
+/* GrapheEcart */
 
 
 void init_liste_graph_ecart(liste_graph_ecart * liste, int valeur_id_sommet_init) {
