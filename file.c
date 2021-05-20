@@ -1,8 +1,6 @@
 /* file.c */
 
 #include "file.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 void init_file (struct file* F, int taille)
 {

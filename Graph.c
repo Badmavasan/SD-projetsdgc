@@ -1,9 +1,6 @@
-/* GrapheEcart.c */
+/* Graph.c */
 
-#include "GraphReseau.h"
-#include "GraphEcart.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "Graph.h"
 
 void buildGraph(FILE fichierDimacs, tabSommetsGR* T, int* source, int* sink, int* n)
 {

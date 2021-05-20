@@ -1,5 +1,9 @@
 /* GraphReseau.h */
 
+#define N 10
+#define NIL_lr (struct liste_graph_reseau *) 0
+#define NIL_mr (struct maillon_graph_reseau *) 0
+
 /*********************************************************************************************
  * HYPOTHESE DE DEPART
  * 

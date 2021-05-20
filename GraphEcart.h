@@ -1,7 +1,5 @@
 /* GrapheEcart.h */
 
-#include "Chemin.h"
-#include "GraphReseau.h"
 #define N 10
 #define NIL_lge (struct liste_graph_ecart *) 0
 #define NIL_mge (struct maillon_graph_ecart *) 0

@@ -1,10 +1,8 @@
-/* Graphe.c */
+/* Graph.h */
 
 #include "GraphReseau.h"
 #include "GraphEcart.h"
 #include "Chemin.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 /*----------------------------------------------------------------------*/
 /* --------------------------- GraphReseau ---------------------------- */
