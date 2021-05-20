@@ -34,5 +34,7 @@ extern void clear_file (struct file*);
 
 extern void enfiler (struct file*, int);
 
+extern int enfiler_successeurs (tabSommetsGE, struct file*, int, int, int predecesseurs[], int);
+
 extern double defiler (struct file*);
 

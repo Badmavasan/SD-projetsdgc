@@ -59,6 +59,8 @@ extern void buildRG(tabSommetsGR reseau, int n, tabSommetsGE graph_ecart);
 
 extern void updateFlowInRG(Chemin chemin, int k, tabSommetsGE graph_ecart);
 
+
+
 /*--------------------------------------------------------------------*/
 /* --------------------------- Chemin --------------------------- */
 /*--------------------------------------------------------------------*/
@@ -73,5 +75,5 @@ extern void init_liste_chemin(tabSommetsC liste_chemin, int valeur_id_sommet_ini
 
 extern void ajout_en_tete_chemin(tabSommetsC liste_chemin, int valeur_id_sommet_courant);
 
-/*            ----------------------------------------------            */
+
 

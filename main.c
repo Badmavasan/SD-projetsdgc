@@ -12,7 +12,8 @@ int main(void) {
     buildGraph(DINIC, R, &source, &sink, &n);
     
     int f = 0;
-    
+    dinic(tabSommetsGR R, &f, int source, int sink, int n)
+    printf("Le flot est passé de 0 à %d", f);
     
     return 0;
 }
