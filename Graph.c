@@ -127,10 +127,33 @@ void buildRG(tabSommetsGR reseau, int n, tabSommetsGE graph_ecart) {
 
 void updateFlowInRG(Chemin chemin, int k, tabSommetsGE graph_ecart) {
     int id_sommet = chemin -> head -> id;
-    struct maillon_chemin M_c = chemin -> head -> next;
-//     struct maillon_graph_ecart M_ge;
+    struct maillon_chemin M_c * = chemin -> head -> next;
+    struct maillon_graph_ecart M_ge *;
     while (M_c != NIL_mc) {
+        M_ge = tabSommetsGE[id_sommet - 1] -> head;
+        while (M_ge != NIL_mge && M_ge -> id != M_c) {
+            M_c = M_c -> next;
+        }
+        if (M_c -> capacite_residual - k = 0) {
+            retirer_de_la_liste(tabSommetsGE[id_sommet - 1, M_c -> id]);
+        }
+        else {
+            M_c -> capacite_residual -= k;
+        }
         
+        int sommet_flot_a_repousser = M_c -> id;
+        M_ge = tabSommetsGE[sommet_flot_a_repousser - 1] -> head;
+        while (M_ge != NIL_mge && M_ge != sommet_flot_a_repousser) {
+            M_ge = M_ge -> next;
+        }
+        if (M_ge == NIL_mge) {
+            ajout_en_tete_graph_ecart(tabSommetsGE[sommet_flot_a_repousser - 1], id_sommet, k);
+        }
+        else {
+            M_ge -> flot_entrant += k;
+        }
+        id_sommet = M_c -> id;
+        M_c = M_c -> next;
     }
     
 }
