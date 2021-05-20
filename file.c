@@ -37,3 +37,7 @@ int defiler (struct file* F)
     }
     return sommet;
 }
+
+int enfiler_successeurs (tabSommetsGE* graphe_ecart, struct file* file_f, int sommet_source, int predecesseurs[], int sink) {
+    maill
+}
