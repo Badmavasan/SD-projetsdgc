@@ -183,14 +183,14 @@ void shortestPath(tabSommetsGE graph_ecart, int source, int sink, int n, tabSomm
     }
 }
 
-extern void init_liste_chemin(tabSommetsC liste_chemin, int valeur_id_sommet_init) {
+void init_liste_chemin(tabSommetsC liste_chemin, int valeur_id_sommet_init) {
     liste_chemin -> id = valeur_id_sommet_courant;
     liste_chemin -> head = NIL_lc;
 }
 
 /*            --------------------------------------------            */
 
-extern void ajout_en_tete_chemin(tabSommetsC * liste_chemin, int valeur_id_sommet_courant) {
+void ajout_en_tete_chemin(tabSommetsC * liste_chemin, int valeur_id_sommet_courant) {
     struct maillon_chemin * M = (struct maillon_chemin *) malloc(sizeof(struct maillon_chemin));
     M -> id = valeur_id_sommet_courant;
     M -> next = liste_chemin -> head;
