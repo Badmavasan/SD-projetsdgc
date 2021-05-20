@@ -56,7 +56,7 @@ typedef tabSommetsGR liste_graph_reseau[N];
  * le param3, param4 et param5 sont récupérer pour etre utiliser dans la fonction principale de dinic 
  */
 
-extern void buildGraph(FILE fichierDimacs, tabSommetsGR T, int source, int sink, int n);
+extern void buildGraph(FILE fichierDimacs, tabSommetsGR T, int* source, int* sink, int* n);
 
 /*
  * Résultat final: le résult final sera rendu par une façon modifié de fichier DIIMACS (cf: Rapport d'analyse Partie Génération du fichier résultat)

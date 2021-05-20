@@ -8,7 +8,7 @@
 
 struct maillon_chemin {
     int id;
-    int flot;
+    int capacite_residual;
     struct maillon_chemin * next;
 };
 

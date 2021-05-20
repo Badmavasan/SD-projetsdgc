@@ -1,3 +1,13 @@
+
+#include "GraphReseau.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+void buildGraph(FILE fichierDimacs, tabSommetsGR* T, int* source, int* sink, int* n)
+{
+    
+}
+
 /* GrapheEcart.h */
 
 
@@ -66,4 +76,3 @@ void updateFlowInRG(Chemin chemin, int k, tabSommetsGE graph_ecart) {
     }
     
 }
-
