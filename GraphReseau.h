@@ -1,5 +1,13 @@
 /* GraphReseau.h */
 
+#define N 10
+#define NIL_lge (struct liste_graph_ecart*) 0
+#define NIL_mge (struct maillon_graph_ecart*) 0
+
+#define NIL_lr (struct liste_graph_reseau*) 0
+#define NIL_mr (struct maillon_graph_reseau*) 0
+
+
 /*********************************************************************************************
  * HYPOTHESE DE DEPART
  * 
@@ -40,8 +48,6 @@ struct liste_graph_reseau {
     struct maillon_graph_reseau* head;
 };
 
-typedef tabSommetsGR liste_graph_reseau[N];
-
 /**********************************************************************
  * PROTOTYPES DES FONCTIONS (TYPE ABSTRAIT)
  **********************************************************************/
@@ -56,7 +62,7 @@ typedef tabSommetsGR liste_graph_reseau[N];
  * le param3, param4 et param5 sont récupérer pour etre utiliser dans la fonction principale de dinic 
  */
 
-extern void buildGraph(FILE fichierDimacs, tabSommetsGR T, int* source, int* sink, int* n);
+extern void buildGraph(char*, int*, int*, struct liste_graph_reseau*);
 
 /*
  * Résultat final: le résult final sera rendu par une façon modifié de fichier DIIMACS (cf: Rapport d'analyse Partie Génération du fichier résultat)
@@ -64,4 +70,12 @@ extern void buildGraph(FILE fichierDimacs, tabSommetsGR T, int* source, int* sin
  * @param2 : tabSommetsGR (un graph du réseau)
  */
 
-extern void renderResult(FILE result, tabSommetsGR T);
+//extern void renderResult(FILE result, tabSommetsGR T);
+
+extern void ajout_en_tete_graph_reseau (int, int, struct liste_graph_reseau*);
+
+extern void initialiser_tabSommetsGR(struct liste_graph_reseau *, int);
+
+extern void imprimer_liste_graph_reseau (struct liste_graph_reseau);
+
+extern void imprimer_graph(struct liste_graph_reseau *, int );

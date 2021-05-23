@@ -1,21 +1,126 @@
 /* GrapheEcart.c */
 
 #include "GraphReseau.h"
-#include "GraphEcart.h"
+//#include "GraphEcart.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <assert.h>
+#include <stdbool.h>
 
-void buildGraph(FILE fichierDimacs, tabSommetsGR* T, int* source, int* sink, int* n)
-{
-    
+void ajout_en_tete_graph_reseau (int terminal, int cap, struct liste_graph_reseau* L){
+    struct maillon_graph_reseau * nouveau = (struct maillon_graph_reseau *) malloc(sizeof(struct maillon_graph_reseau));
+    nouveau->id = terminal;
+    nouveau->flot = 0;
+    nouveau->capacite = cap;
+    nouveau->next = L->head;
+    L->head = nouveau;
 }
+
+void init_liste_graph_reseau(struct liste_graph_reseau *L, int id){
+    L->id = id;
+    L->head = (struct maillon_graph_reseau*)0;
+}
+
+void imprimer_liste_graph_reseau (struct liste_graph_reseau L)
+{   struct maillon_graph_reseau* M;
+    M = L.head;
+    while(M!=NIL_mr)
+    {   
+        printf("id : %d flot: %d capacite: %d\n",M->id, M->flot,M->capacite);
+        M = M->next;
+    }
+}
+
+void imprimer_graph(struct liste_graph_reseau* T, int n){
+    for(int i=0;i<n;i++){
+        imprimer_liste_graph_reseau(T[i]);
+    }
+}
+
+int get_nb_sommets_from_file(char* fichierDimacs){
+    char currentline[1000];
+    int nb_sommets;
+    bool found = false;
+    FILE *fptr = fopen(fichierDimacs, "r");
+    while(found==false && fgets(currentline,sizeof(currentline), fptr) != NULL){
+        char delim[] = " ";
+        char* ptr = strtok(currentline,delim);
+        
+        if(strcmp(ptr,"p")==0){
+            ptr = strtok(NULL,delim);
+            nb_sommets = atoi(ptr);
+            found = true;
+        }
+    }
+    fclose(fptr);
+    return nb_sommets;
+}
+
+void buildGraph(char* fichierDimacs, int* source, int* sink, struct list_graph_reseau * tab)
+{
+    char currentline[1000];
+    FILE *fptr = fopen(fichierDimacs, "r");
+    int value;
+    int from;
+    int to;
+    int cap;
+    assert(fptr != NULL);
+    
+    while(fgets(currentline,sizeof(currentline), fptr) != NULL){
+        char delim[] = " ";
+        char* ptr = strtok(currentline,delim);
+        
+        if(strcmp(ptr,"n")==0){
+            ptr = strtok(NULL,delim);
+            value = atoi(ptr);            
+            ptr = strtok(NULL,delim);
+            if(strcmp(ptr,"s\n")==0){ // utilisation de strtok coupe la ligne suivante aussi c est pour ca qu'on est obligé d'inclure \n aussi 
+                *source = value;
+            }else if(strcmp(ptr,"t\n")==0){
+                *sink = value;
+            }
+        }
+        if(strcmp(ptr,"a")==0){
+            ptr = strtok(NULL,delim);
+            from = atoi(ptr);
+            ptr = strtok(NULL,delim);
+            to = atoi(ptr);
+            ptr = strtok(NULL,delim);
+            cap = atoi(&ptr[0]);
+            //ajout_en_tete_graph_reseau(to,cap,&tab[from -1]); /* HYPOTHESE DE DEPART */
+        }
+    }
+//     printf("source : %d\n",source);
+//     printf("sink : %d\n",sink);
+//     printf("nb de sommets : %d\n",nb_sommets);
+//     printf("nb d'arcs : %d\n",nb_arcs);
+    
+    
+    fclose(fptr);
+}
+
 
 int minCapa (struct liste_chemin* LC)
 {
     struct maillon_chemin* M;
+    int min;
     
-    
-    prec_id = 
+    parcours = chemin->head;
+    if(parcours == NIL_mc){
+        return -1; // si la liste est vide 
+    }
+    else{
+        min = parcours->capacite_residual;
+        parcours = parcours->next;
+        while(parcours != NIL_mc){
+            if(parcours->capacite_residual<min){
+                min = parcours->capacite_residual;
+            }
+            parcours = parcours->next;
+        }
+    }
+    return min;
 }
 
 int getCapacityById(int initial, int terminal, tabSommetsGR* GR)
@@ -158,6 +263,6 @@ void updateFlowInRG(Chemin chemin, int k, tabSommetsGE graph_ecart) {
 }
 
 /* Chemin */
-// void shortestPath() { // ajouter la capacité en plus de ce qui était déjà fait
-//     
-// }
+void shortestPath() { // ajouter la capacité en plus de ce qui était déjà fait
+    
+}

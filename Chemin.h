@@ -14,6 +14,5 @@ struct maillon_chemin {
 
 
 struct liste_chemin {
-    int id;
     struct maillon_chemin * head;
 };
