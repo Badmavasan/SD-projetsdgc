@@ -1,3 +1,3 @@
-/* Dinic.h */
+/* Dinic.c */
 
-#include 'Dinic.h'
+#include "Dinic.h"

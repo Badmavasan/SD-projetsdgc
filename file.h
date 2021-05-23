@@ -1,6 +1,7 @@
 /* file.h */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 
 /**************************************************
@@ -33,6 +34,8 @@ extern void init_file (struct file*, int);
 extern void clear_file (struct file*);
 
 extern void enfiler (struct file*, int);
+
+extern int enfiler_successeurs (tabSommetsGE, struct file*, int, int, int predecesseurs[], int);
 
 extern double defiler (struct file*);
 

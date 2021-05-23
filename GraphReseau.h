@@ -1,9 +1,5 @@
 /* GraphReseau.h */
 
-#define N 10
-#define NIL_lge (struct liste_graph_ecart*) 0
-#define NIL_mge (struct maillon_graph_ecart*) 0
-
 #define NIL_lr (struct liste_graph_reseau*) 0
 #define NIL_mr (struct maillon_graph_reseau*) 0
 
@@ -52,6 +48,7 @@ struct liste_graph_reseau {
  * PROTOTYPES DES FONCTIONS (TYPE ABSTRAIT)
  **********************************************************************/
 
+
 /* 
  * Intialiser le graph réseau à partir du fichier DIMACS
  * @param1 : le fichier DIMACS
@@ -79,3 +76,4 @@ extern void initialiser_tabSommetsGR(struct liste_graph_reseau *, int);
 extern void imprimer_liste_graph_reseau (struct liste_graph_reseau);
 
 extern void imprimer_graph(struct liste_graph_reseau *, int );
+

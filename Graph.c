@@ -1,12 +1,12 @@
-/* GrapheEcart.c */
+/* Graph.c */
 
-#include "GraphReseau.h"
-//#include "GraphEcart.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
 #include <stdbool.h>
+#include "Graph.h"
+
 
 void ajout_en_tete_graph_reseau (int terminal, int cap, struct liste_graph_reseau* L){
     struct maillon_graph_reseau * nouveau = (struct maillon_graph_reseau *) malloc(sizeof(struct maillon_graph_reseau));
@@ -263,6 +263,45 @@ void updateFlowInRG(Chemin chemin, int k, tabSommetsGE graph_ecart) {
 }
 
 /* Chemin */
-void shortestPath() { // ajouter la capacité en plus de ce qui était déjà fait
+
+void shortestPath(tabSommetsGE graph_ecart, int source, int sink, int n, tabSommetsC plus_court_chemin) {
+    init_liste_chemin(plus_court_chemin, source);
+    int predecesseurs[n];
+    for (int i = 0 ; i < n ; i += 1) {
+        predecesseurs[i] = 0;
+    }
+    predecesseurs[source - 1] = source;
+    struct file * file_f;
+    init_file(file_f, n);
+    enfiler(file_f, source);
+    fini = 0;
+    int sommet;
+    while (!fini) {
+        sommet = defiler(file_f);
+        fini = int enfiler_successeurs (graph_ecart, file_f, sommet, sink, predecesseurs, n);
+    }
     
+    sommet = sink;
+    ajout_en_tete_chemin(plus_court_chemin, sommet);
+    int prec = predecesseurs[sommet - 1];
+    
+    while (prec != predecesseurs[prec - 1]) {
+        ajout_en_tete_chemin(plus_court_chemin, prec);
+        prec = predecesseurs[prec - 1];
+    }
 }
+
+void init_liste_chemin(tabSommetsC liste_chemin, int valeur_id_sommet_init) {
+    liste_chemin -> id = valeur_id_sommet_courant;
+    liste_chemin -> head = NIL_lc;
+}
+
+/*            --------------------------------------------            */
+
+void ajout_en_tete_chemin(tabSommetsC * liste_chemin, int valeur_id_sommet_courant) {
+    struct maillon_chemin * M = (struct maillon_chemin *) malloc(sizeof(struct maillon_chemin));
+    M -> id = valeur_id_sommet_courant;
+    M -> next = liste_chemin -> head;
+    liste_chemin -> head = M;
+}
+

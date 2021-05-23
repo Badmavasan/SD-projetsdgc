@@ -1,8 +1,6 @@
 /* file.c */
 
 #include "file.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 void init_file (struct file* F, int taille)
 {
@@ -38,4 +36,8 @@ int defiler (struct file* F)
         F->read_end = (F->read_end + 1) % F->taille;
     }
     return sommet;
+}
+
+int enfiler_successeurs (tabSommetsGE* graphe_ecart, struct file* file_f, int sommet_source, int predecesseurs[], int sink) {
+    maill
 }

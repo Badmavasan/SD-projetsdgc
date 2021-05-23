@@ -1,7 +1,7 @@
 /* Chemin.h */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "file.h"
+#define N 10
 #define NIL_lc (struct liste_chemin *) 0
 #define NIL_mc (struct maillon_chemin *) 0
 
@@ -16,3 +16,5 @@ struct maillon_chemin {
 struct liste_chemin {
     struct maillon_chemin * head;
 };
+
+typedef tabSommetsC liste_chemin[N];
