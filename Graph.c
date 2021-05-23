@@ -1,63 +1,27 @@
 /* Graph.c */
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
-#include <stdbool.h>
 #include "Graph.h"
 
 
-void ajout_en_tete_graph_reseau (int terminal, int cap, struct liste_graph_reseau* L){
+static void ajout_en_tete_graph_reseau (int terminal, int cap, struct liste_graph_reseau* T){
     struct maillon_graph_reseau * nouveau = (struct maillon_graph_reseau *) malloc(sizeof(struct maillon_graph_reseau));
     nouveau->id = terminal;
     nouveau->flot = 0;
     nouveau->capacite = cap;
-    nouveau->next = L->head;
-    L->head = nouveau;
+    nouveau->next = T->head;
+    T->head = nouveau;
 }
 
-void init_liste_graph_reseau(struct liste_graph_reseau *L, int id){
-    L->id = id;
-    L->head = (struct maillon_graph_reseau*)0;
-}
-
-void imprimer_liste_graph_reseau (struct liste_graph_reseau L)
+static void imprimer_liste_graph_reseau (struct liste_graph_reseau L)
 {   struct maillon_graph_reseau* M;
     M = L.head;
     while(M!=NIL_mr)
-    {   
+    {
         printf("id : %d flot: %d capacite: %d\n",M->id, M->flot,M->capacite);
         M = M->next;
     }
 }
 
-void imprimer_graph(struct liste_graph_reseau* T, int n){
-    for(int i=0;i<n;i++){
-        imprimer_liste_graph_reseau(T[i]);
-    }
-}
-
-int get_nb_sommets_from_file(char* fichierDimacs){
-    char currentline[1000];
-    int nb_sommets;
-    bool found = false;
-    FILE *fptr = fopen(fichierDimacs, "r");
-    while(found==false && fgets(currentline,sizeof(currentline), fptr) != NULL){
-        char delim[] = " ";
-        char* ptr = strtok(currentline,delim);
-        
-        if(strcmp(ptr,"p")==0){
-            ptr = strtok(NULL,delim);
-            nb_sommets = atoi(ptr);
-            found = true;
-        }
-    }
-    fclose(fptr);
-    return nb_sommets;
-}
-
-void buildGraph(char* fichierDimacs, int* source, int* sink, struct list_graph_reseau * tab)
+struct liste_graph_reseau* buildGraph(char* fichierDimacs, int* source, int* sink,int* nb_sommets)
 {
     char currentline[1000];
     FILE *fptr = fopen(fichierDimacs, "r");
@@ -65,56 +29,70 @@ void buildGraph(char* fichierDimacs, int* source, int* sink, struct list_graph_r
     int from;
     int to;
     int cap;
+    bool table_created = false;
     assert(fptr != NULL);
-    
+    struct liste_graph_reseau * tab;
+
     while(fgets(currentline,sizeof(currentline), fptr) != NULL){
         char delim[] = " ";
         char* ptr = strtok(currentline,delim);
-        
+        if(strcmp(ptr,"p")==0){
+            ptr = strtok(NULL,delim);
+            *nb_sommets = atoi(ptr);
+
+            tab = (struct liste_graph_reseau *) malloc((*nb_sommets) * sizeof(struct liste_graph_reseau));
+            for(int i=0;i<*nb_sommets;i++){
+                tab[i].id = i+1;
+                tab[i].head = NIL_mr;
+            }
+
+            table_created = true;
+        }
         if(strcmp(ptr,"n")==0){
             ptr = strtok(NULL,delim);
-            value = atoi(ptr);            
+            value = atoi(ptr);
             ptr = strtok(NULL,delim);
-            if(strcmp(ptr,"s\n")==0){ // utilisation de strtok coupe la ligne suivante aussi c est pour ca qu'on est obligé d'inclure \n aussi 
+            if(strcmp(ptr,"s\n")==0){ // utilisation de strtok coupe la ligne suivante aussi c est pour ca qu'on est obligé d'inclure \n aussi
                 *source = value;
             }else if(strcmp(ptr,"t\n")==0){
                 *sink = value;
             }
         }
-        if(strcmp(ptr,"a")==0){
+        if(strcmp(ptr,"a")==0 && table_created){
             ptr = strtok(NULL,delim);
             from = atoi(ptr);
             ptr = strtok(NULL,delim);
             to = atoi(ptr);
             ptr = strtok(NULL,delim);
             cap = atoi(&ptr[0]);
-            //ajout_en_tete_graph_reseau(to,cap,&tab[from -1]); /* HYPOTHESE DE DEPART */
+            ajout_en_tete_graph_reseau(to,cap,&tab[from -1]); /* HYPOTHESE DE DEPART */
         }
     }
-//     printf("source : %d\n",source);
-//     printf("sink : %d\n",sink);
-//     printf("nb de sommets : %d\n",nb_sommets);
-//     printf("nb d'arcs : %d\n",nb_arcs);
-    
-    
     fclose(fptr);
+    return tab;
 }
 
+void imprimer_graph_reseau(struct liste_graph_reseau* tabReseau,int nb_sommets){
+  for(int i=0;i<nb_sommets;i++){
+    printf("sommet : %d\n",i+1); /* HYPOTHESE DE DEPART*/
+    imprimer_liste_graph_reseau(tabReseau[i]);
+  }
+}
 
 int minCapa (struct liste_chemin* LC)
 {
-    struct maillon_chemin* M;
+    struct maillon_chemin* parcours;
     int min;
-    
-    parcours = chemin->head;
+
+    parcours = LC->head->next;
     if(parcours == NIL_mc){
-        return -1; // si la liste est vide 
+        return -1; // si la liste est vide
     }
     else{
         min = parcours->capacite_residual;
         parcours = parcours->next;
         while(parcours != NIL_mc){
-            if(parcours->capacite_residual<min){
+            if(parcours->capacite_residual < min && parcours->capacite_residual!=-1){
                 min = parcours->capacite_residual;
             }
             parcours = parcours->next;
@@ -123,63 +101,66 @@ int minCapa (struct liste_chemin* LC)
     return min;
 }
 
-int getCapacityById(int initial, int terminal, tabSommetsGR* GR)
+static int getCapacity(int initial, int terminal, struct liste_graph_ecart* tabEcart)
 {
-    struct maillon_reseau* M;
-    M = GR[initial -1]->head;
-    while(M!=NIL_mr && M->id != terminal)
+
+    struct maillon_graph_ecart* parcours;
+    parcours = tabEcart[initial -1].head; /*HYPOTHESE DE DEPART*/
+    while(parcours!=NIL_mge && parcours->id != terminal)
     {
-        M = m->next;
+        parcours = parcours->next;
     }
-    if(M==NIL_mr)
+
+    if(parcours==NIL_mge)
     {
         return -1;
     }
     else
     {
-        return M->capacite;
-    }
-}
-
-void updateFlowInNet(tabSommetsGR* GR, tabSommetsGE* GE,int n)
-{
-    struct maillon_reseau* M;
-    for(int i=0; i<n ;i++)
-    {
-        M = GR[i]->head;
-        
-        while(M!=NIL_mr)
-        {
-            M->flot = getFlotFromGraphEc(i,M->id,GE);
-        }
+        return parcours->flot_entrant;
     }
 }
 
 
-int getFlotFromGraphEc(int initial, int terminal, tabSommetsGE T )
-{
-    struct maillon_grpah_reseau * M = (struct maillon_graph_reseau *) malloc(sizeof(struct maillon_graph_reseau));
-    M = T[terminal - 1]->head;
-    while(M!=NIL_mge && M->id != initial)
-    {
-        M = M->next;
-    }
-    if(M!=NIL_mge){
-        return M->flot_entrant;
-    }
-    else{
-        retourner 0;
-    }
-}
-
-
+// void updateFlowInNet(tabSommetsGR* GR, tabSommetsGE* GE,int n)
+// {
+//     struct maillon_reseau* M;
+//     for(int i=0; i<n ;i++)
+//     {
+//         M = GR[i]->head;
+//
+//         while(M!=NIL_mr)
+//         {
+//             M->flot = getFlotFromGraphEc(i,M->id,GE);
+//         }
+//     }
+// }
+//
+//
+// int getFlotFromGraphEc(int initial, int terminal, tabSommetsGE T )
+// {
+//     struct maillon_grpah_reseau * M = (struct maillon_graph_reseau *) malloc(sizeof(struct maillon_graph_reseau));
+//     M = T[terminal - 1]->head;
+//     while(M!=NIL_mge && M->id != initial)
+//     {
+//         M = M->next;
+//     }
+//     if(M!=NIL_mge){
+//         return M->flot_entrant;
+//     }
+//     else{
+//         retourner 0;
+//     }
+// }
+//
+//
 /* GrapheEcart */
-void init_liste_graph_ecart(liste_graph_ecart * liste, int valeur_id_sommet_init) {
+static void init_liste_graph_ecart(struct liste_graph_ecart * liste, int valeur_id_sommet_init) {
     liste -> head = NIL_mge;
     liste -> id = valeur_id_sommet_init;
 }
 
-void ajout_en_tete_graph_ecart(liste_graph_ecart * liste, int valeur_id_sommet_courant, int valeur_flot_sommet_courant) {
+static void ajout_en_tete_graph_ecart(struct liste_graph_ecart * liste, int valeur_id_sommet_courant, int valeur_flot_sommet_courant) {
     struct maillon_graph_ecart * M = (struct maillon_graph_ecart *) malloc(sizeof(struct maillon_graph_ecart));
     M -> id = valeur_id_sommet_courant;
     M -> flot_entrant = valeur_flot_sommet_courant;
@@ -187,14 +168,28 @@ void ajout_en_tete_graph_ecart(liste_graph_ecart * liste, int valeur_id_sommet_c
     liste -> head = M;
 }
 
-void retirer_de_la_liste(liste_graph_ecart * liste, int id_sommet_a_retirer) { // free le maillon retiré
+static void retirer_de_la_liste(struct liste_graph_ecart * liste, int id_sommet_a_retirer) { // free le maillon retiré
     struct maillon_graph_ecart * M;
     struct maillon_graph_ecart * M_succ;
-    M = L -> head;
+
+    struct maillon_graph_ecart* parcours = liste->head;
+    printf("liste : %d -> ",liste->id);
+    while(parcours!=NIL_mge){
+      printf("%d\t", parcours->id);
+      parcours=parcours->next;
+    }
+    putchar('\n');
+    M = liste -> head;
+    printf("liste head verif : %d\n", M->id);
     M_succ = M -> next;
-    while (M_succ != NIL_mge && M_succ != id_sommet_a_retirer) {
-        M = M_succ;
-        M_succ = M_succ -> next;
+    if(M->id==id_sommet_a_retirer){
+      M_succ = M;
+    }
+    else{
+      while (M_succ != NIL_mge && M_succ->id != id_sommet_a_retirer) {
+          M = M_succ;
+          M_succ = M_succ -> next;
+      }
     }
     if (M_succ != NIL_mge) {
         struct maillon_graph_ecart * M_ret = M_succ;
@@ -204,58 +199,76 @@ void retirer_de_la_liste(liste_graph_ecart * liste, int id_sommet_a_retirer) { /
     }
 }
 
-void clear_liste_graph_ecart(liste_graph_ecart liste, int valeur_id_sommet_init) {
-    struct maillon_graph_ecart * M;
-    struct maillon_graph_ecart * M_succ;
-    M = L -> head;
-    M_succ = M -> next;
-    while (M_succ != NIL_mge) {
-        free(M);
-        M = M_succ;
-        M_succ = M_succ -> next;
-    }
-    free(M);
-}
-
-void buildRG(tabSommetsGR reseau, int n, tabSommetsGE graph_ecart) {
-    for (int i = 0 ; i < n ; i += 1) {
-        init_liste_graph_ecart(tabSommetsGE[i], i + 1);
-        struct maillon_graph_reseau * M_r = tabSommetsGR[i] -> head;
+//
+// void clear_liste_graph_ecart(liste_graph_ecart liste, int valeur_id_sommet_init) {
+//     struct maillon_graph_ecart * M;
+//     struct maillon_graph_ecart * M_succ;
+//     M = L -> head;
+//     M_succ = M -> next;
+//     while (M_succ != NIL_mge) {
+//         free(M);
+//         M = M_succ;
+//         M_succ = M_succ -> next;
+//     }
+//     free(M);
+// }
+//
+struct liste_graph_ecart * buildRG(struct liste_graph_reseau* tabReseau, int nb_sommets) {
+    struct liste_graph_ecart* tabEcart = (struct liste_graph_ecart *) malloc((nb_sommets) * sizeof(struct liste_graph_ecart));
+    for (int i = 0 ; i < nb_sommets ; i += 1) {
+        init_liste_graph_ecart(&tabEcart[i], i + 1);
+        struct maillon_graph_reseau * M_r = tabReseau[i].head;
         while (M_r != NIL_mr) {
-            if (M_r -> capacite - M_r -> flot) {
-                ajout_en_tete_graph_ecart(tabSommetsGE[i], M_r -> id, M_r -> capacite);
+            if (M_r -> capacite - M_r -> flot != 0) {
+                ajout_en_tete_graph_ecart(&tabEcart[i], M_r -> id, M_r -> capacite);
             }
             M_r = M_r -> next;
         }
     }
+    return tabEcart;
 }
 
-void updateFlowInRG(Chemin chemin, int k, tabSommetsGE graph_ecart) {
+static void imprimer_liste_graph_ecart(struct liste_graph_ecart liste){
+  struct maillon_graph_ecart* parcours = liste.head;
+  while(parcours != NIL_mge){
+    printf("id: %d\tflot_entrant:%d\n",parcours->id,parcours->flot_entrant);
+    parcours = parcours->next;
+  }
+}
+
+void imprimer_graph_ecart(struct liste_graph_ecart* tabEcart,int nb_sommets){
+  for(int i=0;i<nb_sommets;i++){
+    printf("Sommet : %d\n", i+1);
+    imprimer_liste_graph_ecart(tabEcart[i]);
+  }
+}
+
+void updateFlowInRG(struct liste_chemin* chemin, struct liste_graph_ecart* tabEcart, int min) {
     int id_sommet = chemin -> head -> id;
-    struct maillon_chemin M_c * = chemin -> head -> next;
-    struct maillon_graph_ecart M_ge *;
+    struct maillon_chemin* M_c  = chemin -> head -> next;
+    struct maillon_graph_ecart* M_ge;
     while (M_c != NIL_mc) {
-        M_ge = tabSommetsGE[id_sommet - 1] -> head;
-        while (M_ge != NIL_mge && M_ge -> id != M_c) {
-            M_c = M_c -> next;
+        M_ge = tabEcart[id_sommet - 1].head;
+        while (M_ge != NIL_mge && M_ge -> id != M_c-> id) {
+            M_ge = M_ge -> next;
         }
-        if (M_c -> capacite_residual - k = 0) {
-            retirer_de_la_liste(tabSommetsGE[id_sommet - 1, M_c -> id]);
+        if (M_c->capacite_residual - min == 0) {
+            retirer_de_la_liste(&tabEcart[id_sommet - 1], M_c -> id);
         }
         else {
-            M_c -> capacite_residual -= k;
+            M_ge -> flot_entrant -= min;
         }
-        
+
         int sommet_flot_a_repousser = M_c -> id;
-        M_ge = tabSommetsGE[sommet_flot_a_repousser - 1] -> head;
-        while (M_ge != NIL_mge && M_ge != sommet_flot_a_repousser) {
+        M_ge = tabEcart[sommet_flot_a_repousser - 1].head;
+        while (M_ge != NIL_mge && M_ge->id != id_sommet) {
             M_ge = M_ge -> next;
         }
         if (M_ge == NIL_mge) {
-            ajout_en_tete_graph_ecart(tabSommetsGE[sommet_flot_a_repousser - 1], id_sommet, k);
+            ajout_en_tete_graph_ecart(&tabEcart[sommet_flot_a_repousser - 1], id_sommet, min);
         }
         else {
-            M_ge -> flot_entrant += k;
+            M_ge -> flot_entrant += min;
         }
         id_sommet = M_c -> id;
         M_c = M_c -> next;
@@ -264,44 +277,80 @@ void updateFlowInRG(Chemin chemin, int k, tabSommetsGE graph_ecart) {
 
 /* Chemin */
 
-void shortestPath(tabSommetsGE graph_ecart, int source, int sink, int n, tabSommetsC plus_court_chemin) {
-    init_liste_chemin(plus_court_chemin, source);
-    int predecesseurs[n];
-    for (int i = 0 ; i < n ; i += 1) {
-        predecesseurs[i] = 0;
-    }
-    predecesseurs[source - 1] = source;
-    struct file * file_f;
-    init_file(file_f, n);
-    enfiler(file_f, source);
-    fini = 0;
-    int sommet;
-    while (!fini) {
-        sommet = defiler(file_f);
-        fini = int enfiler_successeurs (graph_ecart, file_f, sommet, sink, predecesseurs, n);
-    }
-    
-    sommet = sink;
-    ajout_en_tete_chemin(plus_court_chemin, sommet);
-    int prec = predecesseurs[sommet - 1];
-    
-    while (prec != predecesseurs[prec - 1]) {
-        ajout_en_tete_chemin(plus_court_chemin, prec);
-        prec = predecesseurs[prec - 1];
-    }
+struct liste_chemin * init_liste_chemin() {
+  struct liste_chemin* liste_chemin = (struct liste_chemin*) malloc(sizeof(struct liste_chemin));
+  liste_chemin -> head = NIL_mc;
+  return liste_chemin;
 }
 
-void init_liste_chemin(tabSommetsC liste_chemin, int valeur_id_sommet_init) {
-    liste_chemin -> id = valeur_id_sommet_courant;
-    liste_chemin -> head = NIL_lc;
+static bool enfiler_successeurs (struct liste_graph_ecart* tabEcart, struct file* file_f, int sommet_source, int predecesseurs[], int sink) {
+    struct maillon_graph_ecart* parcours = tabEcart[sommet_source -1].head;
+    bool flag = false;
+
+    while(parcours != NIL_mge){
+      if(predecesseurs[parcours->id -1]==0){
+        enfiler(file_f,parcours->id);
+        predecesseurs[parcours->id -1] = sommet_source;
+      }
+      if(predecesseurs[sink -1]!=0){
+        flag = true;
+      }
+      parcours = parcours->next;
+    }
+    return flag;
 }
 
-/*            --------------------------------------------            */
-
-void ajout_en_tete_chemin(tabSommetsC * liste_chemin, int valeur_id_sommet_courant) {
+static void ajout_en_tete_chemin(struct liste_chemin* liste_chemin, int valeur_id_sommet_courant, int capRes) {
     struct maillon_chemin * M = (struct maillon_chemin *) malloc(sizeof(struct maillon_chemin));
     M -> id = valeur_id_sommet_courant;
+    M->capacite_residual = capRes;
+
     M -> next = liste_chemin -> head;
+
     liste_chemin -> head = M;
 }
 
+struct liste_chemin* shortestPath(struct liste_graph_ecart* tabEcart, int source, int sink, int nb_sommets, bool* fini) {
+    struct liste_chemin* plus_court_chemin = init_liste_chemin();
+    int predecesseurs[nb_sommets];
+    for (int i = 0 ; i < nb_sommets ; i += 1) {
+        predecesseurs[i] = 0;
+    }
+    predecesseurs[source - 1] = source;
+    struct file* file_f = init_file(nb_sommets);
+    enfiler(file_f, source);
+    *fini = false;
+    int sommet;
+    while (!*fini && sommet !=-1) {
+        sommet = defiler(file_f);
+        *fini = enfiler_successeurs (tabEcart, file_f, sommet, predecesseurs,sink);
+    }
+    if(predecesseurs[sink-1]!=0){
+      ajout_en_tete_chemin(plus_court_chemin,sink,getCapacity(predecesseurs[sink -1],sink,tabEcart));
+      int prec = predecesseurs[sink - 1];
+
+      while (prec != predecesseurs[prec - 1]) {
+          ajout_en_tete_chemin(plus_court_chemin, prec,getCapacity(predecesseurs[prec -1],prec,tabEcart));
+          prec = predecesseurs[prec - 1];
+      }
+
+    }
+
+    ajout_en_tete_chemin(plus_court_chemin,source,-1);
+
+    return plus_court_chemin;
+}
+
+void imprimer_chemin(struct liste_chemin * LC){
+  struct maillon_chemin* M = LC->head;
+
+  while(M!=NIL_mc){
+    printf("id : %d capacite : %d\t",M->id,M->capacite_residual);
+    M = M->next;
+  }
+  printf("\n");
+}
+
+//
+// /*            --------------------------------------------            */
+//

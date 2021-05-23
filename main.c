@@ -1,21 +1,19 @@
-
 #include <stdio.h>
 #include <ctype.h>
 #include "Dinic.h"
 
 int main(void) {
     printf("Saisissez le nom du fichier contenant le réseau initial.");
-    FILE DINIC;
-    scanf("%s", &DINIC);
+    char fichier_dinic [50];
+    scanf("%s", fichier_dinic);
+    int source, sink, nb_sommets;
 
-    tabSommetsGR R;
-    int source, sink, n;
+    struct liste_graph_reseau* tabReseau = buildGraph(fichier_dinic, &source, &sink, &nb_sommets);
 
-    buildGraph(DINIC, R, &source, &sink, &n);
 
     int f = 0;
-    dinic(R, &f, int source, int sink, int n);
-    printf("Le flot est passé de 0 à %d", f);
+    dinic(tabReseau, &f, source, sink,nb_sommets);
+    printf("Le flot est passé de 0 à %d\n", f);
 
     return 0;
 }
