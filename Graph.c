@@ -73,10 +73,12 @@ struct liste_graph_reseau* buildGraph(char* fichierDimacs, int* source, int* sin
 }
 
 void imprimer_graph_reseau(struct liste_graph_reseau* tabReseau,int nb_sommets){
+    printf("Graphe Réseau :\n");
   for(int i=0;i<nb_sommets;i++){
     printf("sommet : %d\n",i+1); /* HYPOTHESE DE DEPART*/
     imprimer_liste_graph_reseau(tabReseau[i]);
   }
+  printf("\n\n");
 }
 
 int minCapa (struct liste_chemin* LC)
@@ -173,14 +175,14 @@ static void retirer_de_la_liste(struct liste_graph_ecart * liste, int id_sommet_
     struct maillon_graph_ecart * M_succ;
 
     struct maillon_graph_ecart* parcours = liste->head;
-    printf("liste : %d -> ",liste->id);
+//     printf("liste : %d -> ",liste->id);
     while(parcours!=NIL_mge){
-      printf("%d\t", parcours->id);
+//       printf("%d\t", parcours->id);
       parcours=parcours->next;
     }
     putchar('\n');
     M = liste -> head;
-    printf("liste head verif : %d\n", M->id);
+//     printf("liste head verif : %d\n", M->id);
     M_succ = M -> next;
     if(M->id==id_sommet_a_retirer){
       M_succ = M;
@@ -237,10 +239,12 @@ static void imprimer_liste_graph_ecart(struct liste_graph_ecart liste){
 }
 
 void imprimer_graph_ecart(struct liste_graph_ecart* tabEcart,int nb_sommets){
+    printf("Graphe Écart : \n");
   for(int i=0;i<nb_sommets;i++){
     printf("Sommet : %d\n", i+1);
     imprimer_liste_graph_ecart(tabEcart[i]);
   }
+  printf("\n\n");
 }
 
 void updateFlowInRG(struct liste_chemin* chemin, struct liste_graph_ecart* tabEcart, int min) {
@@ -249,15 +253,15 @@ void updateFlowInRG(struct liste_chemin* chemin, struct liste_graph_ecart* tabEc
     struct maillon_graph_ecart* M_ge;
     while (M_c != NIL_mc) {
         M_ge = tabEcart[id_sommet - 1].head;
-        while (M_ge != NIL_mge && M_ge -> id != M_c-> id) {
-            M_ge = M_ge -> next;
-        }
-        if (M_c->capacite_residual - min == 0) {
-            retirer_de_la_liste(&tabEcart[id_sommet - 1], M_c -> id);
-        }
-        else {
-            M_ge -> flot_entrant -= min;
-        }
+//         while (M_ge != NIL_mge && M_ge -> id != M_c-> id) {
+//             M_ge = M_ge -> next;
+//         }
+//         if (M_c->capacite_residual - min == 0) {
+//             retirer_de_la_liste(&tabEcart[id_sommet - 1], M_c -> id);
+//         }
+//         else {
+//             M_ge -> flot_entrant -= min;
+//         }
 
         int sommet_flot_a_repousser = M_c -> id;
         M_ge = tabEcart[sommet_flot_a_repousser - 1].head;
@@ -265,6 +269,7 @@ void updateFlowInRG(struct liste_chemin* chemin, struct liste_graph_ecart* tabEc
             M_ge = M_ge -> next;
         }
         if (M_ge == NIL_mge) {
+            printf("ajout arc : %d - %d : %d\n", sommet_flot_a_repousser, id_sommet, min);
             ajout_en_tete_graph_ecart(&tabEcart[sommet_flot_a_repousser - 1], id_sommet, min);
         }
         else {
@@ -288,8 +293,16 @@ static bool enfiler_successeurs (struct liste_graph_ecart* tabEcart, struct file
     bool flag = false;
 
     while(parcours != NIL_mge){
-      if(predecesseurs[parcours->id -1]==0){
+        printf("--> Boucle While Begin <--\n");
+        printf("parcours liste succ de %d : %p\n", sommet_source, parcours);
+        printf(" - predecesseurs : ");
+        for (int i = 0 ; i < 6 ; i += 1) {
+            printf("%d - ", predecesseurs[i]);
+        }
+        printf("\n\n");
+      if(predecesseurs[parcours->id - 1] == 0){
         enfiler(file_f,parcours->id);
+        printf("-- Tab -- Source : %d -> successeur : %d\n", sommet_source, parcours->id -1);
         predecesseurs[parcours->id -1] = sommet_source;
       }
       if(predecesseurs[sink -1]!=0){
@@ -297,6 +310,7 @@ static bool enfiler_successeurs (struct liste_graph_ecart* tabEcart, struct file
       }
       parcours = parcours->next;
     }
+    printf("--> Boucle While End <--\n");
     return flag;
 }
 
@@ -321,15 +335,24 @@ struct liste_chemin* shortestPath(struct liste_graph_ecart* tabEcart, int source
     enfiler(file_f, source);
     *fini = false;
     int sommet;
+    print_file(file_f);
     while (!*fini && sommet !=-1) {
         sommet = defiler(file_f);
-        *fini = enfiler_successeurs (tabEcart, file_f, sommet, predecesseurs,sink);
+        *fini = enfiler_successeurs (tabEcart, file_f, sommet, predecesseurs, sink);
+        print_file(file_f);
     }
-    if(predecesseurs[sink-1]!=0){
+    printf("predecesseurs : ");
+    for (int i = 0 ; i < nb_sommets ; i += 1) {
+        printf("%d - ", predecesseurs[i]);
+    }
+    printf("\n\n");
+    if(predecesseurs[sink-1] != 0){
+        printf("predecesseur de %d : %d\n", sink, predecesseurs[sink -1]);
       ajout_en_tete_chemin(plus_court_chemin,sink,getCapacity(predecesseurs[sink -1],sink,tabEcart));
       int prec = predecesseurs[sink - 1];
 
       while (prec != predecesseurs[prec - 1]) {
+        printf("predecesseur de %d : %d\n", prec, predecesseurs[prec -1]);
           ajout_en_tete_chemin(plus_court_chemin, prec,getCapacity(predecesseurs[prec -1],prec,tabEcart));
           prec = predecesseurs[prec - 1];
       }
@@ -343,12 +366,13 @@ struct liste_chemin* shortestPath(struct liste_graph_ecart* tabEcart, int source
 
 void imprimer_chemin(struct liste_chemin * LC){
   struct maillon_chemin* M = LC->head;
+  printf("Chemin : \n");
 
   while(M!=NIL_mc){
     printf("id : %d capacite : %d\t",M->id,M->capacite_residual);
     M = M->next;
   }
-  printf("\n");
+  printf("\n\n");
 }
 
 //

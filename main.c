@@ -5,7 +5,8 @@
 int main(void) {
     printf("Saisissez le nom du fichier contenant le réseau initial.");
     char fichier_dinic [50];
-    scanf("%s", fichier_dinic);
+//     scanf("%s", fichier_dinic);
+    strcpy(fichier_dinic, "net2.txt");
     int source, sink, nb_sommets;
 
     struct liste_graph_reseau* tabReseau = buildGraph(fichier_dinic, &source, &sink, &nb_sommets);

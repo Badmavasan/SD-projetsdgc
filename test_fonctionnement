@@ -1,0 +1,65 @@
+Saisissez le nom du fichier contenant le réseau initial.Graph ecart initial :
+Sommet : 1
+id: 2   flot_entrant:5
+id: 3   flot_entrant:10
+Sommet : 2
+id: 4   flot_entrant:10
+id: 5   flot_entrant:5
+Sommet : 3
+id: 4   flot_entrant:5
+id: 5   flot_entrant:5
+Sommet : 4
+id: 6   flot_entrant:5
+Sommet : 5
+id: 6   flot_entrant:10
+Sommet : 6
+
+
+id : 1 capacite : -1    id : 2 capacite : 5     id : 4 capacite : 10    id : 6 capacite : 5
+liste : 1 -> 2  3
+liste head verif : 2
+liste : 4 -> 2  6
+liste head verif : 2
+Sommet : 1
+id: 1   flot_entrant:5
+id: 4   flot_entrant:5
+id: 5   flot_entrant:5
+Sommet : 2
+id: 1   flot_entrant:5
+id: 4   flot_entrant:5
+id: 5   flot_entrant:5
+Sommet : 3
+id: 4   flot_entrant:5
+id: 5   flot_entrant:5
+Sommet : 4
+id: 2   flot_entrant:5
+Sommet : 5
+id: 6   flot_entrant:10
+Sommet : 6
+id: 4   flot_entrant:5
+
+
+id : 1 capacite : -1    id : 5 capacite : 5     id : 6 capacite : 10
+liste : 1 -> 1  4       5
+liste head verif : 1
+Sommet : 1
+id: 1   flot_entrant:5
+id: 4   flot_entrant:5
+Sommet : 2
+id: 1   flot_entrant:5
+id: 4   flot_entrant:5
+Sommet : 3
+id: 4   flot_entrant:5
+id: 5   flot_entrant:5
+Sommet : 4
+id: 2   flot_entrant:5
+Sommet : 5
+id: 1   flot_entrant:5
+id: 6   flot_entrant:5
+Sommet : 6
+id: 5   flot_entrant:5
+id: 4   flot_entrant:5
+
+
+id : 1 capacite : -1
+Le flot est passé de 0 à 10

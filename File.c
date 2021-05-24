@@ -54,5 +54,5 @@ void print_file(struct file* F){
   for(int i=0;i<F->taille;i++){
     printf("%d\t",F->tab[i]);
   }
-  printf("\n");
+  printf("\n\n");
 }

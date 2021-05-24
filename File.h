@@ -1,7 +1,10 @@
-/* file.h */
+/* File.h */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
+#include <stdbool.h>
+#include <string.h>
 
 
 /**************************************************
@@ -19,23 +22,24 @@
  */
 
 struct file {
-    int Tab [];
     int taille;
     int read_end;
     int write_end;
-    int n; 
+    int n;
+    int * tab;
 };
 
 #include <stdbool.h>
 
 /* Constructeur. Initialise à la file vide */
-extern void init_file (struct file*, int);
+extern struct file* init_file (int taille);
 
 extern void clear_file (struct file*);
 
 extern void enfiler (struct file*, int);
 
-extern int enfiler_successeurs (tabSommetsGE, struct file*, int, int, int predecesseurs[], int);
+// extern int enfiler_successeurs (tabSommetsGE, struct file*, int, int, int predecesseurs[], int);
 
-extern double defiler (struct file*);
+extern int defiler (struct file*);
 
+extern void print_file(struct file* F);
