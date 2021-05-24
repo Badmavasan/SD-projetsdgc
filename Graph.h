@@ -19,7 +19,7 @@
 
 /*            ----------------------------------------------            */
 
-extern struct liste_graph_reseau* buildGraph(char*, int*, int*,int*);
+extern struct liste_graph_reseau* buildGraph(char*, int*, int*,int*,int*);
 
 extern void imprimer_graph_reseau(struct liste_graph_reseau*, int);
 /*
@@ -28,9 +28,11 @@ extern void imprimer_graph_reseau(struct liste_graph_reseau*, int);
  * @param2 : tabSommetsGR (un graph du réseau)
  */
 
-extern void renderResult(char*, struct liste_graph_reseau*);
+extern void renderResult(char*, struct liste_graph_reseau*,int,int,int,int,int);
 
+extern void updateFlowInNet(struct liste_graph_reseau*, struct liste_graph_ecart*,int);
 
+extern void clear_liste_graph_reseau(struct liste_graph_reseau*,int);
 
 /*--------------------------------------------------------------------*/
 /* --------------------------- GraphEcart --------------------------- */
@@ -44,6 +46,8 @@ extern void imprimer_graph_ecart(struct liste_graph_ecart*,int);
 extern  struct liste_chemin* shortestPath(struct liste_graph_ecart*,int, int, int,bool*);
 
 extern int minCapa (struct liste_chemin*);
+
+extern void clear_liste_graph_ecart(struct liste_graph_ecart*,int);
 //
 // /*            ----------------------------------------------            */
 //
@@ -73,3 +77,5 @@ extern struct liste_chemin* init_liste_chemin();
 //
 // extern void ajout_en_tete_chemin(tabSommetsC liste_chemin, int valeur_id_sommet_courant);
 extern void imprimer_chemin(struct liste_chemin*);
+
+extern void clear_chemin(struct liste_chemin*);

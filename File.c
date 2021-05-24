@@ -18,7 +18,8 @@ struct file* init_file (int taille)
 
 void clear_file (struct file* F)
 {
-
+  free(F->tab);
+  free(F);
 }
 
 void enfiler(struct file* F, int sommet_a_enfiler)
@@ -54,5 +55,5 @@ void print_file(struct file* F){
   for(int i=0;i<F->taille;i++){
     printf("%d\t",F->tab[i]);
   }
-  printf("\n");
+  printf("\n\n");
 }
