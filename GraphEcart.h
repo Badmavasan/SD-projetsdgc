@@ -1,6 +1,4 @@
 /* GrapheEcart.h */
-
-
 #define NIL_lge (struct liste_graph_ecart *) 0
 #define NIL_mge (struct maillon_graph_ecart *) 0
 
