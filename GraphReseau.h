@@ -19,10 +19,10 @@
  * Implantation de Graph Réseau :
  *
  * Les maillons sont alloués dynamiquement.
- * Le champ next du dernier maillon vaut (struct maillon_double*)0
+ * Le champ next du dernier maillon vaut (struct maillon_graph_reseau*)0
  *
  * Le champ tete d'une liste pointe vers le premier maillon
- * La liste vide est codée par (tete, nbelem) = ((struct maillon_double*)0, 0)
+ * La liste vide est codée par (tete)= ((struct maillon_double*)0
  *
  * Des listes distinctes ont des maillons distincts (pas de maillon partagé).
  *
