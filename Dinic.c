@@ -11,8 +11,6 @@ void dinic (struct liste_graph_reseau* tabReseau,int* flot,int source,int sink,i
     int min;
     bool fini;
     
-    imprimer_graph_ecart(tabEcart,nb_sommets);
-    
     /*Programme*/
     plus_court_chemin = shortestPath(tabEcart,source,sink,nb_sommets,&fini);
     
