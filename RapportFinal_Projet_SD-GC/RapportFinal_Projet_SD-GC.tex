@@ -11,13 +11,16 @@
 \usepackage{hyperref}
 \usepackage{listings}
 \usepackage{color}
+\usepackage[dvipsnames]{xcolor}
+\definecolor{EnoncerQuestions}{RGB}{10, 84, 68}
+\definecolor{EnincerExercice}{RGB}{158, 19, 24}
 
 \definecolor{lightgray}{rgb}{.98,.98,.98}
 \definecolor{darkgray}{rgb}{.4,.4,.4}
 \definecolor{blue}{rgb}{0.5, 0.2, 0.82}
 \definecolor{purple}{rgb}{0.7, 0, 0.6}
 
-\lstdefinelanguage{JavaScript}{
+\lstdefinelanguage{C}{
 	keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
 	keywordstyle=\color{blue}\bfseries,
 	ndkeywords={class, export, boolean, throw, implements, import, this},
@@ -33,7 +36,7 @@
 }
 
 \lstset{
-	language=JavaScript,
+	language=C,
 	backgroundcolor=\color{lightgray},
 	extendedchars=true,
 	basicstyle=\footnotesize\ttfamily,
@@ -47,10 +50,11 @@
 	showtabs=false,
 	captionpos=b
 }
-
-
-
+\author{\textcolor{Periwinkle}{Caroline Schmid}}
+\date{}
+\title{Probabilités 1 IS2A3 : Devoir Maison\\À rendre le \textcolor{MidnightBlue}{Vendredi 04 décembre 2020}}
 \begin{document}
+	\maketitle
 	\pagenumbering{roman}
 	\begin{titlepage}
 		\begin{center}
@@ -86,7 +90,7 @@
 			
 			\vspace*{0.1cm}	        
 			
-			\large{\textit{Auteurs :} Badmavasan KIROUCHENASSAMY\\Caroline SCHMID} 
+			\large{\textit{Auteurs :} \textcolor{EnincerExercice}{Badmavasan KIROUCHENASSAMY\\Caroline SCHMID}}
 			
 			
 			
@@ -143,17 +147,17 @@
 		\item une matrice d'incidence :
 		
 		Un tableau de tableaux : chaque case du premier tableau est elle-même un tableau. les sommets sont représentés en lignes et les arcs en colonnes. La case est à $0$ si le sommet n'est pas incident à l'arc, $1$ s'il est source de l'arc et $-1$ s'il est destination de l'arc.\\
-		\includegraphics[width=0.7\textwidth]{images/Matrice_d-incidence.extension}\\
+		%\includegraphics[width=0.7\textwidth]{images/Matrice_d-incidence.extension}\\
 		
 		\item un tableau sommets - successeurs :
 		
 		Deux tableaux.Le premier tableau de la longueur du nombre d'arc est un tableau de pointeurs pointant vers le premier sommet successeur dans le second tableau. Le second tableau, de la longueur du nombre d'arcs, représente les successeurs des sommets du premier tableau. Les successeurs d'un même sommet sont contigus dans le second tableau.\\
-		\includegraphics[width=0.7\textwidth]{images/Tableau_sommets-successeurs.extension}\\
+		%\includegraphics[width=0.7\textwidth]{images/Tableau_sommets-successeurs.extension}\\
 		
 		\item un tableau de listes de successeurs :
 		
 		Un tableau de listes de successeurs. Chaque case contient une liste. La tête de la liste indique quel est le sommet source et les maillons de la liste sont les successeurs de ce sommet source.\\
-		\includegraphics[width=0.7\textwidth]{images/Tableau_de_listes_de_successeurs.extension}\\
+		%\includegraphics[width=0.7\textwidth]{images/Tableau_de_listes_de_successeurs.extension}\\
 		
 	\end{enumerate}
 	
@@ -191,7 +195,7 @@
 	Voici le code $C$ décrivant ces structures de données :
 	\lstset{language=C}
 	\begin{lstlisting}
-        /* Réseau */
+        /* Reseau */
         
         struct maillon_graph_reseau {
             int id;
@@ -207,7 +211,7 @@
         
         
         
-        /* Graphe Écart */
+        /* Graphe Ecart */
         
         struct maillon_graph_ecart {
             int id;
@@ -251,14 +255,14 @@
 	
 	\lstset{language=C}
 	\begin{lstlisting}
-        /* Réseau */
+        /* Reseau */
         
         #define NIL_lr (struct liste_graph_reseau*) 0
         #define NIL_mr (struct maillon_graph_reseau*) 0
         
         
         
-        /* Graphe Écart */
+        /* Graphe Ecart */
         
         #define NIL_lge (struct liste_graph_ecart *) 0
         #define NIL_mge (struct maillon_graph_ecart *) 0
@@ -274,26 +278,26 @@
 	De manière schématique, les structures de données ressembleraient donc à :
 	\begin{itemize}
         \item Réseau :\\
-		\includegraphics[width=0.7\textwidth]{images/}\\
+		%\includegraphics[width=0.7\textwidth]{images/}\\
         \item Graphe Écart :\\
-		\includegraphics[width=0.7\textwidth]{images/}\\
+		%\includegraphics[width=0.7\textwidth]{images/}\\
         \item Chemin :\\
-		\includegraphics[width=0.7\textwidth]{images/}\\
+		%\includegraphics[width=0.7\textwidth]{images/}\\
         \item File :\\
-		\includegraphics[width=0.7\textwidth]{images/}\\
+		%\includegraphics[width=0.7\textwidth]{images/}\\
 	\end{itemize}
 	
 	L'arborescence des fichiers est la suivante :
 	
-	\begin{figure}[H]
-		\captionsetup{justification=centering}
-		\centering
-		\includegraphics[width=0.6\textwidth]{images/ants2m.png}
-	\end{figure}
+	%\begin{figure}[H]
+		%\captionsetup{justification=centering}
+		%\centering
+		%\includegraphics[width=0.6\textwidth]{images/ants2m.png}
+	%\end{figure}
 	
 	La descritpion de la file ainsi que les déclarations des fonctions applicables dessus se trouvent dans le ficher \verb|File.h| et ses fonctions sont décrites dans le fichier \verb|File.c|.
 	
-	Le réseau et le graphe d'écart sont tout deux des graphes et le chemin est construit à partir d'un graphe donc les fonctions dépendant de ces 3 structures de données sont contenues dans le ficher \verb|Graph.c|. Ce dernier importe 4 fichiers d'entête : \verb|GraphReseau.h|, \verb|GraphEcart.h| et \verb|Chemin.h| contenant la description des structures de données respectives. Le 4^{ième} fichier importé est \verb|Graph.c|, contenant la déclaration des fonctions produites dans le fichier \verb|Graph.c|.
+	Le réseau et le graphe d'écart sont tout deux des graphes et le chemin est construit à partir d'un graphe donc les fonctions dépendant de ces 3 structures de données sont contenues dans le ficher \verb|Graph.c|. Ce dernier importe 4 fichiers d'entête : \verb|GraphReseau.h|, \verb|GraphEcart.h| et \verb|Chemin.h| contenant la description des structures de données respectives. Le 4ième fichier importé est \verb|Graph.c|, contenant la déclaration des fonctions produites dans le fichier \verb|Graph.c|.
 	
 	Enfin, \verb|Dinic.h| contient la signature de la fonction programmée dans le fichier \verb|Dinic.c| et \verb|main.c| fait tourner le programme et maximise le flot du réseau donné en paramètres.
 	
@@ -301,12 +305,49 @@
 	
 	\chapter{Mode d'emploi}
 	
-	L'entrée du programme est un fichier contenant la description d'un réseau au format \textbf{DIMACS}. (des exemples de ce format sont présents dans le dossier $./DIMACS/$ ou encore sur $MOODLE$).
+	L'entrée du programme est un fichier contenant la description d'un réseau au format \textbf{DIMACS}. (des exemples de ce format sont présents dans le dossier \verb|./DIMACS/| ou encore sur \verb*|MOODLE|).
 	
 	On va donc exécuter notre programme sur ce réseau pour maximiser le flot et obtenir un nouveau fichier $result.txt$ en sortie, contenant la description du réseau de flot maximum ainsi que le flot maximum final.
 	
+	Pour lancer le programme, un \verb|MAKEFILE| est mis à disposition pour gérer la compilation. La compilation se résume donc à lancer un terminal dans le répertoir courant et lancer la commande \verb|make|. Cette commande exécute les commandes de compilation et liens avec les options \verb|-Wall| et \verb|-g|. On obtient ainsi tout les warnings et on peut lancer le programme sous un débuger comme \verb|gdb|. Le compilateur utilisé est \verb|gcc|. L'exécutable produit est \verb|a.out|.
+	
+	Le programme nécessite un fichier en entrée, fournissant le réseau initial. Il faut saisir les chemin et le nom du fichier en question. On peut donc exécuter les lignes suivantes :
+	\lstset{language=bash}
+	\begin{lstlisting}
+		make
+		./a.out
+		DIMACS/net1.txt
+		DIMACS/
+	\end{lstlisting}
 	
 	
+	
+	\chapter{Description des exemples traités}
+	
+	
+	\chapter{Pseudo-Code}
+	
+	
+	\chapter*{Conclusion}
+	\pagenumbering{Alph}
+	
+	
+	\chapter*{Bilan personnel}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	\pagebreak
+	
+	\vspace{900px}
+	
+	\rule{1\textwidth}{.8pt}
+	\rule{1\textwidth}{.8pt}
 	
 	\begin{figure}[H]
 		\centering
@@ -327,14 +368,10 @@
 		\includegraphics[width=0.6\textwidth]{images/ants2m-D.png}
 	\end{figure}
 	
-	
-	\chapter{Description des exemples traités}
 	\begin{itemize}
 		\item "\verb|.|" : Les Smiles contenant des points sont plusieurs polymères, il faut donc couper au niveau du point et traîter séparément chaque polymère (ex:
 		\\"\verb|CC(C)(C)OC(=O)N[C@H](CC1=CC=C(C=C1)I)C(=O)=C.CC(C)(C)|\\\verb|OC(=O)N[C@@H](CC1=CC=C(C=C1)I)C(=O)=C|" devient \\"\verb|CC(C)(C)OC(=O)N[C@H](CC1=CC=C(C=C1)I)C(=O)=C|" et\\  "\verb|CC(C)(C)OC(=O)N[C@@H](CC1=CC=C(C=C1)I)C(=O)=C|" [ici, les deux polymères sont l'isomère l'un de l'autre]).
 	\end{itemize}
-
-	\chapter{Pseudo-Code}
 	%\lstset{language=C}
 	\begin{lstlisting}
 		Coverage :
@@ -353,16 +390,12 @@
 	\end{lstlisting}
 	
 	
-	\chapter*{Conclusion}
-	\pagenumbering{Alph}
 	
 	\begin{figure}[H]
 		\includegraphics[width=0.8\textwidth]{./images/ACs2m.png}
 	\end{figure}
 	La majorité des polymères sont recouverts à plus de 70\% et le taux de couverture de la majorité des polymères est de 0.9.
 	
-	
-	\chapter*{Bilan personnel}
 	
 	
 \end{document}
