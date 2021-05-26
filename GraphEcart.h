@@ -31,13 +31,16 @@
  * de sommet de l'arrivé de l'arc et le flot entrant
  *********************************************************************************************/
 
+
 struct maillon_graph_ecart {
     int id;
     int flot_entrant;
-    struct maillon_graph_ecart* next;
+    struct maillon_graph_ecart * next;
 };
+
 
 struct liste_graph_ecart {
     int id;
-    struct maillon_graph_ecart* head;
+    struct maillon_graph_ecart * head;
 };
+

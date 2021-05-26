@@ -5,16 +5,12 @@
 #define NIL_mc (struct maillon_chemin *) 0
 
 
-struct maillon_chemin {
-    int id;
-    int capacite_residual;
+struct maillon_chemin {        // Maillon source
+    int id;                    // id = sommet_source
+    int capacite_residual;     // capacite_residual = -1
     struct maillon_chemin * next;
 };
 
-/* Maillon source
- * id = sommet_source
- * capacite_residual = -1
- */
 
 struct liste_chemin {
     struct maillon_chemin * head;

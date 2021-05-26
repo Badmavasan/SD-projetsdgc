@@ -1,10 +1,11 @@
 /* File.h */
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
+#include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include <assert.h>
+#include <ctype.h>
 
 
 /**************************************************
@@ -22,7 +23,7 @@
  */
 
 struct file {
-    int* tab;
+    int * tab;
     int taille;
     int read_end;
     int write_end;
@@ -30,12 +31,12 @@ struct file {
 };
 
 /* Constructeur. Initialise à la file vide */
-extern struct file* init_file (int);
+extern struct file * init_file(int);
 
-extern void clear_file (struct file*);
+extern void clear_file(struct file *);
 
-extern void enfiler (struct file*, int);
+extern void enfiler(struct file *, int);
 
-extern int defiler (struct file*);
+extern int defiler(struct file *);
 
-extern void print_file(struct file*);
+extern void print_file(struct file *);

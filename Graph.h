@@ -18,7 +18,7 @@
  * les param2, param3, param4 et param5 sont récupérer pour etre utiliser dans la fonction principale de dinic
  */
 /*            ----------------------------------------------            */
-extern struct liste_graph_reseau* buildGraph(char*, int*, int*,int*,int*);
+extern struct liste_graph_reseau * buildGraph(char *, int *, int *,int *,int *);
 /*            ----------------------------------------------            */
 
 /*
@@ -30,7 +30,7 @@ extern struct liste_graph_reseau* buildGraph(char*, int*, int*,int*,int*);
  */
 
 /*            ----------------------------------------------            */
-extern void imprimer_graph_reseau(struct liste_graph_reseau*, int);
+extern void imprimer_graph_reseau(struct liste_graph_reseau *, int);
 /*            ----------------------------------------------            */
 
 /*
@@ -41,7 +41,7 @@ extern void imprimer_graph_reseau(struct liste_graph_reseau*, int);
  */
 
 /*            ----------------------------------------------            */
-extern void renderResult(char*, struct liste_graph_reseau*,int,int,int,int,int);
+extern void renderResult(char *, struct liste_graph_reseau *,int, int, int, int, int);
 /*            ----------------------------------------------            */
 
 /*
@@ -54,7 +54,7 @@ extern void renderResult(char*, struct liste_graph_reseau*,int,int,int,int,int);
  */
 
 /*            ----------------------------------------------            */
-extern void updateFlowInNet(struct liste_graph_reseau*, struct liste_graph_ecart*,int);
+extern void updateFlowInNet(struct liste_graph_reseau *, struct liste_graph_ecart *, int);
 /*            ----------------------------------------------            */
 
 /*
@@ -63,7 +63,7 @@ extern void updateFlowInNet(struct liste_graph_reseau*, struct liste_graph_ecart
  */
 
 /*            ----------------------------------------------            */
-extern void clear_liste_graph_reseau(struct liste_graph_reseau*,int);
+extern void clear_liste_graph_reseau(struct liste_graph_reseau *, int);
 /*            ----------------------------------------------            */
 
 
@@ -73,27 +73,27 @@ extern void clear_liste_graph_reseau(struct liste_graph_reseau*,int);
 /* --------------------------- GraphEcart --------------------------- */
 /*--------------------------------------------------------------------*/
 
-extern struct liste_graph_ecart* buildRG(struct liste_graph_reseau*, int);
+extern struct liste_graph_ecart * buildRG(struct liste_graph_reseau *, int);
 
 /*            ----------------------------------------------            */
 
-extern void imprimer_graph_ecart(struct liste_graph_ecart*,int);
+extern void imprimer_graph_ecart(struct liste_graph_ecart *, int);
 
 /*            ----------------------------------------------            */
 
-extern  struct liste_chemin* shortestPath(struct liste_graph_ecart*,int, int, int,bool*);
+extern  struct liste_chemin * shortestPath(struct liste_graph_ecart *,int, int, int, bool *);
 
 /*            ----------------------------------------------            */
 
-extern int minCapa (struct liste_chemin*);
+extern int minCapa (struct liste_chemin *);
 
 /*            ----------------------------------------------            */
 
-extern void clear_liste_graph_ecart(struct liste_graph_ecart*,int);
+extern void clear_liste_graph_ecart(struct liste_graph_ecart *, int);
 
 /*            ----------------------------------------------            */
 
-extern void updateFlowInRG(struct liste_chemin*, struct liste_graph_ecart*, int);
+extern void updateFlowInRG(struct liste_chemin *, struct liste_graph_ecart *, int);
 
 /*            ----------------------------------------------            */
 
@@ -104,14 +104,14 @@ extern void updateFlowInRG(struct liste_chemin*, struct liste_graph_ecart*, int)
 /* --------------------------- Chemin --------------------------- */
 /*--------------------------------------------------------------------*/
 
-extern struct liste_chemin* init_liste_chemin();
+extern struct liste_chemin * init_liste_chemin();
 
 /*            ----------------------------------------------            */
 
-extern void imprimer_chemin(struct liste_chemin*);
+extern void imprimer_chemin(struct liste_chemin *);
 
 /*            ----------------------------------------------            */
 
-extern void clear_chemin(struct liste_chemin*);
+extern void clear_chemin(struct liste_chemin *);
 
 /*            ----------------------------------------------            */

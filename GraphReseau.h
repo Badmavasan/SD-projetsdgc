@@ -1,7 +1,7 @@
 /* GraphReseau.h */
 
-#define NIL_lr (struct liste_graph_reseau*) 0
-#define NIL_mr (struct maillon_graph_reseau*) 0
+#define NIL_lr (struct liste_graph_reseau *) 0
+#define NIL_mr (struct maillon_graph_reseau *) 0
 
 
 /*********************************************************************************************
@@ -32,14 +32,17 @@
  * de sommet de l'arrivé de l'arc, la capacité et flot
  *********************************************************************************************/
 
+
 struct maillon_graph_reseau {
     int id;
     int flot;
     int capacite;
-    struct maillon_graph_reseau* next;
+    struct maillon_graph_reseau * next;
 };
+
 
 struct liste_graph_reseau {
     int id;
-    struct maillon_graph_reseau* head;
+    struct maillon_graph_reseau * head;
 };
+
