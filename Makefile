@@ -1,6 +1,6 @@
 # MAKEFILE GENERIC :
 
-EXENAME = Flot_Maximum
+EXENAME = a.out
 
 CC = gcc
 CFLAGS  = -Wall

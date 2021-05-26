@@ -308,6 +308,9 @@ struct liste_chemin * init_liste_chemin() {
 
 static bool enfiler_successeurs (struct liste_graph_ecart* tabEcart, struct file* file_f, int sommet_source, int predecesseurs[], int sink) {
     struct maillon_graph_ecart* parcours = tabEcart[sommet_source -1].head;
+    // printf("printing parcours id\n");
+    // printf("Sommet source : %d\n",sommet_source);
+    // printf("finished printing parcours id\n");
     bool flag = false;
 
     while(parcours != NIL_mge){
@@ -319,6 +322,7 @@ static bool enfiler_successeurs (struct liste_graph_ecart* tabEcart, struct file
         //     printf("%d - ", predecesseurs[i]);
         // }
         // printf("\n\n");
+
       if(predecesseurs[parcours->id - 1] == 0){
         enfiler(file_f,parcours->id);
         // printf("-- Tab -- Source : %d -> successeur : %d\n", sommet_source, parcours->id -1);
@@ -355,9 +359,10 @@ struct liste_chemin* shortestPath(struct liste_graph_ecart* tabEcart, int source
     *fini = false;
     int sommet;
     // print_file(file_f);
-    while (!*fini && sommet !=-1) {
-        sommet = defiler(file_f);
+    sommet = defiler(file_f);
+    while (!(*fini) && sommet !=-1) {
         *fini = enfiler_successeurs (tabEcart, file_f, sommet, predecesseurs, sink);
+        sommet = defiler(file_f);
         // print_file(file_f);
     }
     /*--------------IMPRESSION TABLE DE PREDECESSEURS---------------*/
