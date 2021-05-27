@@ -1,8 +1,11 @@
 c Mesh Graph
 c 30 Rows, 30 columns, capacities in range [0, 1000000]
 p 902 2670
+c source
 n 1 s
+c sink
 n 902 t
+c arcs
 a 1 31 3000000
 a 1 30 3000000
 a 1 29 3000000

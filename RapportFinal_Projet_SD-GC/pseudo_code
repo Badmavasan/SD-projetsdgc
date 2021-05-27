@@ -1,0 +1,199 @@
+
+
+
+
+/* Reseau */
+
+type liste_graph_reseau = structure
+  id : Entier
+  head : maillon_graph_reseau
+fin
+
+type maillon_graph_reseau = structure
+  id : Entier
+  flot : Entier
+  capacite : Entier
+  next : maillon_graph_reseau
+fin
+
+
+
+/* Graphe Ecart */
+
+type maillon_graph_ecart = structure
+  id : Entier
+  flot_entrant : Entier
+  next : maillon_graph_ecart
+fin
+
+type liste_graph_ecart = structure
+  id : Entier
+  head : maillon_graph_ecart
+fin
+
+
+
+/* Chemin */
+
+type maillon_chemin = structure
+  id : Entier
+  capacite_residual : Entier
+  next : maillon_chemin
+fin
+
+type liste_chemin = structure
+  head : maillon_chemin
+fin
+
+
+
+/* File */
+
+type file = structure
+  tab : vecteur d'Entier
+  taille : Entier
+  read_end : Entier
+  write_end : Entier
+  n : Entier
+fin
+
+
+
+/* Fonctions-Actions */
+
+
+
+Action buildGraph(nom_fichier, source, sink, nb_sommets, nb_arcs, reseau) :
+
+  D : nom_fichier : Chaine
+  R : source : Entier
+      sink : Entier
+      nb_sommets : Entier
+      nb_arcs : Entier
+      tab : vecteur de liste_graph_reseau
+  L : value : Entier
+      from : Entier
+      to : Entier
+      cap : Entier
+      table_created : Boolean
+      currentline : Chaine
+
+  ouverture du fichier nom_fichier pour y lire les informations et construire le réseau
+
+  table_created = Faux // le tableau contenant le réseau n'a pas encore été créé.
+
+  TantQue il reste des lignes pas encore lues dans le fichier Faire :
+    currentline = ligne suivante
+
+    Si 'p' est le premier caractère de la currentline Faire : // 'p' en début de ligne signifie que les valeurs qui suivent sur la même ligne sont, dans l'ordre, le nombre de sommets et le nombre d'arcs constituant le réseau.
+      nb_sommets = nombre de sommets, valeur indiquée dans currentline
+
+      nb_arcs = nombre d'arcs, valeur indiquée dans currentline
+
+      création du tableau tab // connaissant à présent le nombre de sommets du réseau, on peut créer un tableau de la taille du nombre de sommets.
+      table_created = Vrai // le tableau contenant le réseau a bien été créé.
+
+      Pour i allant de 0 à nombre de sommets Faire : // initialisation de toute les têtes de listes contenues dans le tableau de réseau
+        tab[i].id = i + 1 // la case du tableau est la tête de liste. Elle contient l'information du sommet source des arcs qui seront décrits dans la chaîne de maillons constituant le reste de la liste.
+        tab[i].head = NULL // on ne sait pas encore quels sont les successeurs de chaque sommet, on le matérialise par la valeur 'NULL'.
+      FinPour
+
+    FinSi
+
+    Si 'n' est le premier caractère de la currentline Faire : // 'n' en début de ligne signifie que les valeurs qui suivent sur la même ligne sont, un sommet, 's' pour indiquer que le sommet de la ligne est la source du réseau et 't' pour indiquer que le sommet de la ligne est le puits du réseau.
+      value = sommet source ou puits, valeur indiquée dans currentline
+
+      Si 's' est le caractère suivant dans currentline Faire : // 's' pour la source.
+        source = value
+      Sinon Si 't' est le caractère suivant dans currentline Faire : // 't' pour le puits.
+        sink = value
+      FinSi
+
+    FinSi
+
+    Si 'a' est le premier caractère de la currentline et que table_created est à Vrai Faire : // 'a' en début de ligne signifie que les valeurs qui suivent sur la même ligne sont, le sommet source de l'arc décrit, le sommet puits de l'arc décrit, la capacité de l'arc décrit sur cette ligne.
+      from = sommet source de l'arc, valeur indiquée dans currentline
+      to = sommet puits de l'arc, valeur indiquée dans currentline
+      cap = capacité de l'acr allant de 'from' à 'to', valeur indiquée dans currentline
+
+      ajouter en tête de la liste tab[from - 1] un maillon dont les valeurs seront id = to, flot = 0, capacite = cap, next = tete actuelle de la liste, le maillon head de la liste devient ce maillon.
+    FinSi
+
+  FinTantQue
+
+  // le tableau construit contient maintenant le réseau lu dans le fichier nom_fichier
+
+  refermer le fichier nom_fichier
+
+FinAction
+
+
+
+buildRG()
+
+
+
+shortestPath()
+
+
+
+minCapa()
+
+
+
+updateFlowInRG()
+
+
+
+updateFlowInNet()
+
+
+
+dinic()
+
+
+
+main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+struct en pseudo code :
+
+type Eleve = structure
+                    nom : Chaine
+                    prenom : Chaine
+                    adresse : Adresse
+                    notes : vecteur [NN] de Reels
+fin
