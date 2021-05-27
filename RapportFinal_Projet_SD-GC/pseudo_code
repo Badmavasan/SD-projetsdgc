@@ -63,8 +63,7 @@ fin
 
 
 
-Action buildGraph(nom_fichier, source, sink, nb_sommets, nb_arcs, reseau) :
-
+Action buildGraph(nom_fichier, source, sink, nb_sommets, nb_arcs, tab) :
   D : nom_fichier : Chaine
   R : source : Entier
       sink : Entier
@@ -77,6 +76,7 @@ Action buildGraph(nom_fichier, source, sink, nb_sommets, nb_arcs, reseau) :
       cap : Entier
       table_created : Boolean
       currentline : Chaine
+      i : Entier
 
   ouverture du fichier nom_fichier pour y lire les informations et construire le réseau
 
@@ -129,7 +129,34 @@ FinAction
 
 
 
-buildRG()
+Fonction buildRG(tabReseau, nb_sommets) : vecteur de liste_graph_ecart
+  D : tabReseau : liste_graph_reseau (tableau de listes de successeurs, représentant le réseau sur lequel se base le graphe d'écart renvoyé en sortie).
+      nb_sommets : Entier (nombre de sommets dans les différents graphes. D'un type de graphe à l'autre et d'une itération à l'autre, cette valeur ne change pas, contrairement ).
+  L : tabEcart : vecteur de liste_graph_ecart (tableau de listes de successeurs, représentant le graphe d'écart que nous allons construire à partir du réseau).
+      M_r : maillon_graph_reseau
+      i : Entier
+
+  création du tableau tabEcart
+
+  Pour i allant de 0 à nb_sommets Faire : // permet de parcourir les successeurs de tous les sommets du réseau.
+    initialisation de la liste avec les valeurs i+1 pour l'id et NULL pour la tête de la liste étant donné qu'on n'a pas encore de successeurs pour le sommet i+1.
+
+    M_r = tabReseau[i].head // on va parcourir la liste tabReseau[i] grace au maillon M_r.
+
+    TantQue M_r != NULL Faire : // tant qu'on n'est pas arrivés au bout de la listes des successeurs.
+
+      Si M_r.capacite - M_r.flot != 0 Faire : // les arcs d'un graphe d'écart ont pour valeur la capacité - le flot de l'arc équivalent dans le réseau. Ici, tous lees arcs du réseau ont un flot de 0 donc c'est pure précaution.
+        ajouter en tête de la liste tabEcart[i] un nouveau maillon de graphe d'écart de valeurs id = M_r.id, de flot_entrant = M_r.capacite et de next = tabEcart[i].head.
+      FinSi
+
+      M_r = M_r.next // on a fini de traiter ce maillon du réseau, on passe au suivant.
+    FinTantQue
+
+  FinPour
+
+  retourner tabEcart
+
+FinFonction
 
 
 

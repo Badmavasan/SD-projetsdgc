@@ -148,32 +148,44 @@
 		\item une matrice d'incidence :
 		
 		Un tableau de tableaux : chaque case du premier tableau est elle-même un tableau. les sommets sont représentés en lignes et les arcs en colonnes. La case est à $0$ si le sommet n'est pas incident à l'arc, $1$ s'il est source de l'arc et $-1$ s'il est destination de l'arc.\\
-		%\includegraphics[width=0.7\textwidth]{images/Matrice_d-incidence.extension}\\         1)
+		\includegraphics[width=0.7\textwidth]{images/Matrice_incidence.png}\\
 		
 		\item un tableau sommets - successeurs :
 		
 		Deux tableaux. Le premier tableau de la longueur du nombre d'arc est un tableau de pointeurs pointant vers le premier sommet successeur dans le second tableau. Le second tableau, de la longueur du nombre d'arcs, représente les successeurs des sommets du premier tableau. Les successeurs d'un même sommet sont contigus dans le second tableau.\\
-		%\includegraphics[width=0.7\textwidth]{images/Tableau_sommets-successeurs.extension}\\         2)
+		\includegraphics[width=0.7\textwidth]{images/tableau_pointeur_succ.png}\\
 		
 		\item un tableau de listes de successeurs :
 		
 		Un tableau de listes de successeurs. Chaque case contient une liste. La tête de la liste indique quel est le sommet source et les maillons de la liste sont les successeurs de ce sommet source.\\
-		%\includegraphics[width=0.7\textwidth]{images/Tableau_de_listes_de_successeurs.extension}\\         3)
+		\includegraphics[width=0.8\textwidth]{images/tableau_liste_succ.png}\\
 		
 	\end{enumerate}
 	
     Comparons les avantages des trois structures de données sur 3 critères : le coût de stockage en mémoire, le coût de traitement en accès au successeur d'un sommet donné et finalement l'ajout et la suppression d'un successeur d'un sommet donné.
     
     \begin{center}
-        \begin{tabular}{ | c | c | c | c | } 
+        \begin{tabular}{ | p{0.15\textwidth} | p{0.3\textwidth} | p{0.3\textwidth} | p{0.3\textwidth} | } 
             \hline
-            & Matrice d'incidence & Tableau sommets - successeurs & Tableau de listes de successeurs \\
+            	 &
+            	Matrice d'incidence &
+            	Tableau sommets - successeurs &
+            	Tableau de listes de successeurs \\
             \hline
-            Coût de stockage en mémoire & La dimension de la matrice est de $n·m$. L'initialisation du tableau occupe une taille de $n·m$, donc la complexité en coût mémoire vaut $(n·m).sizeof(int)$. & La complexité en coût mémoire de cette structure de donnée est simplement de $n+m$. & Le tableau initial est de taille $n$ et il y a $m$ maillons répartis dans les différentes listes du tableau. Ces structures sont allouées dynamiquement. La complexité en coût mémoire est de nouveau de $n+m$.\\
+            	Coût de stockage en mémoire &
+            	La dimension de la matrice est de $n·m$. L'initialisation du tableau occupe une taille de $n·m$, donc la complexité en coût mémoire vaut $(n·m).sizeof(int)$. &
+            	La complexité en coût mémoire de cette structure de donnée est simplement de $n+m$. &
+            	Le tableau initial est de taille $n$ et il y a $m$ maillons répartis dans les différentes listes du tableau. Ces structures sont allouées dynamiquement. La complexité en coût mémoire est de nouveau de $n+m$.\\
             \hline
-            Coût de traitement en accès au successeur & Il faut parcourir la matrice afin de trouver les successeurs d'un sommet vu que c'est une matrice d'incidence donc on ne peut pas se concentrer sur une seule ligne ou colonne. La complexité est donc de $O(n·m)$. & On a directement l'indice dans le tableau de successeurs en fonction du tableau de sommets. Donc on n'a pas vraiment de traitement à effectuer. La complexité est donc de $O(m)$. & On a une listechaînée donc il y a le coût de parcours des maillons. La complexité est donc de $O(m)$.\\
+            	Coût de traitement en accès au successeur &
+            	Il faut parcourir la matrice afin de trouver les successeurs d'un sommet vu que c'est une matrice d'incidence donc on ne peut pas se concentrer sur une seule ligne ou colonne. La complexité est donc de $O(n·m)$. &
+            	On a directement l'indice dans le tableau de successeurs en fonction du tableau de sommets. Donc on n'a pas vraiment de traitement à effectuer. La complexité est donc de $O(n)$. &
+            	On a une listechaînée donc il y a le coût de parcours des maillons. La complexité est donc de $O(n)$.\\
             \hline
-            Ajout et la suppression d'un successeur & Il faut redimensionner une matrice à 2 dimensions et donc réalouer plus ou moins de mémoire et déplacer les données étant donné qu'elles sont stockées dans des cases contigues (principe du tableau). La complexité et en $O(n·m)$. & Le second tableau, de successeurs, doit être redimensionné et donc il faut potentiellement déplacer le tableau. La complexité de cette opération est en $O(m)$. & L'ajout ou la suppression d'un maillon dans une liste a un coût constant et donc négligeable. Sa complexité est en $O(1)$.\\
+            	Ajout et suppression d'un successeur &
+            	Il faut redimensionner une matrice à 2 dimensions et donc réalouer plus ou moins de mémoire et déplacer les données étant donné qu'elles sont stockées dans des cases contigues (principe du tableau). La complexité et en $O(n·m)$. &
+            	Le second tableau, de successeurs, doit être redimensionné et donc il faut potentiellement déplacer le tableau. La complexité de cette opération est en $O(m)$. &
+            	L'ajout ou la suppression d'un maillon dans une liste a un coût constant et donc négligeable. Sa complexité est en $O(1)$.\\
             \hline
         \end{tabular}
     \end{center}
@@ -278,16 +290,17 @@
         #define NIL_mc (struct maillon_chemin *) 0
 	\end{lstlisting}
 	
-	De manière schématique, sur un exemple, les structures de données ressembleraient donc à :
+	De manière schématique, sur un exemple donné ci dessous, les structures de données ressembleraient donc à :\\
+	\includegraphics[width=0.7\textwidth]{images/R3.png}\\
 	\begin{itemize}
         \item Réseau : le réseau initial :\\
-		%\includegraphics[width=0.7\textwidth]{images/}\\         4)
+		\includegraphics[width=0.8\textwidth]{images/sch_reseau.png}\\
         \item Graphe Écart : le premier graphe d'écart construit à partir du réseau :\\
-		%\includegraphics[width=0.7\textwidth]{images/}\\         5)
+		\includegraphics[width=0.8\textwidth]{images/sch_graphe_ecart.png}\\
         \item Chemin : le premier chemin améliorant :\\
-		%\includegraphics[width=0.7\textwidth]{images/}\\         6)
+		\includegraphics[width=0.7\textwidth]{images/sch_chemin.png}\\
         \item File : la file à la fin de la construction du premier chemin améliorant :\\
-		%\includegraphics[width=0.7\textwidth]{images/}\\         7)
+		\includegraphics[width=0.25\textwidth]{images/sch_file.png}\\
 	\end{itemize}
 	
 	L'arborescence des fichiers est la suivante :
