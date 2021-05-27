@@ -298,11 +298,13 @@
 	
 	La descritpion de la file ainsi que les déclarations des fonctions applicables dessus se trouvent dans le ficher \verb|File.h| et ses fonctions sont décrites dans le fichier \verb|File.c|.
 	
-	Le réseau et le graphe d'écart sont tout deux des graphes et le chemin est construit à partir d'un graphe donc les fonctions dépendant de ces 3 structures de données sont contenues dans le ficher \verb|Graph.c|. Ce dernier importe 4 fichiers d'entête : \verb|GraphReseau.h|, \verb|GraphEcart.h| et \verb|Chemin.h| contenant la description des structures de données respectives. Le 4ième fichier importé est \verb|Graph.c|, contenant la déclaration des fonctions produites dans le fichier \verb|Graph.c|.
+	Le réseau et le graphe d'écart sont tout deux des graphes et le chemin est construit à partir d'un graphe donc les fonctions dépendant de ces 3 structures de données sont contenues dans le ficher \verb|Graph.c|. Ce dernier importe 4 fichiers d'entête : \verb|GraphReseau.h|, \verb|GraphEcart.h| et \verb|Chemin.h| contenant la description des structures de données respectives. Le dernier fichier importé est \verb|Graph.c|, contenant la déclaration des fonctions produites dans le fichier \verb|Graph.c|.
 	
 	Enfin, \verb|Dinic.h| contient la signature de la fonction programmée dans le fichier \verb|Dinic.c| et \verb|main.c| fait tourner le programme et maximise le flot du réseau donné en paramètres.
 	
 	Ainsi, la File est importée dans le Chemin pour permettre de trouver le plus court chemin, le Chemin, le Graphe Écart et le Réseau sont importés dans le Graphe, le Graphe est importé dans Dinic et enfin Dinic est importé dans le main.
+	
+	\verb|File.h| étant importé par tout les autres fichiers directement ou indirectement, toutes les inclusions de librairies sont faites dans ce fichier.
 	
 	\chapter{Mode d'emploi}
 	
