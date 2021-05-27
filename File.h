@@ -8,19 +8,19 @@
 #include <ctype.h>
 
 
-/**************************************************
+/*******************************************************************************************
  * IMPLANTATION
  *
  * Spécification de l'implantation
  *
  * Implantation de file :
  *
- * On fait pas d'allocution dynamique mais une allocution fixe du tableau de file
  *
- * init_file creer un tableau de de taille donne
+ *
+ * init_file
  * n nombre d'élements dans la file
  * on a un tableau int comme les informations stockée sont numéro (numéro de sommet) cf: HYPOTHESE GraphReseau.h
- */
+ *********************************************************************************************/
 
 struct file {
     int * tab;
@@ -30,7 +30,10 @@ struct file {
     int n;
 };
 
-/* Constructeur. Initialise à la file vide */
+/* Constructeur: Initialise à la file vide de taille donne (cette fonction fait de l'allocution dynamique)
+ * @param1 : la taille de file à initialiser
+ * @return : l'adresse de file est retourné
+ */
 extern struct file * init_file(int);
 
 extern void clear_file(struct file *);
