@@ -1,0 +1,60 @@
+buildGraph()
+
+buildRG()
+
+shortestPath()
+
+minCapa()
+
+updateFlowInRG()
+
+updateFlowInNet()
+
+dinic()
+
+main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Chaine
+
+struct en pseudo code :
+
+type Eleve = structure
+                    nom : Chaine
+                    prenom : Chaine
+                    adresse : Adresse
+                    notes : vecteur [NN] de Reels
+fin
