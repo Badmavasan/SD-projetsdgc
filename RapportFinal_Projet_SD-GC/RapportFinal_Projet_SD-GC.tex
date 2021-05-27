@@ -142,22 +142,23 @@
 	
 	Par convention, un graphe est constitué de $n$ sommets et $m$ arcs. On utilisera donc ces notations pour alléger le texte.
 	
-	Pour représenter le réseau, on voit trois structures de données possibles :
+	Pour représenter le réseau, on voit trois structures de données possibles. Elles seront illustrées ici par une représentation graphique basée sur l'exemple du réseau précédent, dans son état initial.
+	
 	\begin{enumerate}
 		\item une matrice d'incidence :
 		
 		Un tableau de tableaux : chaque case du premier tableau est elle-même un tableau. les sommets sont représentés en lignes et les arcs en colonnes. La case est à $0$ si le sommet n'est pas incident à l'arc, $1$ s'il est source de l'arc et $-1$ s'il est destination de l'arc.\\
-		%\includegraphics[width=0.7\textwidth]{images/Matrice_d-incidence.extension}\\
+		%\includegraphics[width=0.7\textwidth]{images/Matrice_d-incidence.extension}\\         1)
 		
 		\item un tableau sommets - successeurs :
 		
-		Deux tableaux.Le premier tableau de la longueur du nombre d'arc est un tableau de pointeurs pointant vers le premier sommet successeur dans le second tableau. Le second tableau, de la longueur du nombre d'arcs, représente les successeurs des sommets du premier tableau. Les successeurs d'un même sommet sont contigus dans le second tableau.\\
-		%\includegraphics[width=0.7\textwidth]{images/Tableau_sommets-successeurs.extension}\\
+		Deux tableaux. Le premier tableau de la longueur du nombre d'arc est un tableau de pointeurs pointant vers le premier sommet successeur dans le second tableau. Le second tableau, de la longueur du nombre d'arcs, représente les successeurs des sommets du premier tableau. Les successeurs d'un même sommet sont contigus dans le second tableau.\\
+		%\includegraphics[width=0.7\textwidth]{images/Tableau_sommets-successeurs.extension}\\         2)
 		
 		\item un tableau de listes de successeurs :
 		
 		Un tableau de listes de successeurs. Chaque case contient une liste. La tête de la liste indique quel est le sommet source et les maillons de la liste sont les successeurs de ce sommet source.\\
-		%\includegraphics[width=0.7\textwidth]{images/Tableau_de_listes_de_successeurs.extension}\\
+		%\includegraphics[width=0.7\textwidth]{images/Tableau_de_listes_de_successeurs.extension}\\         3)
 		
 	\end{enumerate}
 	
@@ -181,6 +182,8 @@
     Pour réduir le nombre d'ajout et de suppressions d'arcs dans le graphe d'écart lors de ses mises à jour entre deux itérations de \textbf{DINIC}, on pourrait, lors de la création du graphe à partir du réseau, créer pour chaque sommet dans le graphe un arc avec le flot égalant la capacité de l'arc du graphe et un arc inverse de flot nul. Ça permettrait d'utiliser les arcs déjà construits et ne pas ajouter de nouvel arc ou en retirer un de flot nul.
     
     Nous n'appliquerons pas cette idée car elle permet d'économiser un peu d'espace mémoire. L'espace économisé n'est pas nécessairement important mais il devient significatif lorsque le nombre d'arcs devient grand car on passe de $m$ arcs à $2m$ arcs. On notera que cette solution aurait pu être appliquée au tableau sommets - successeurs et il n'y aurait plus eu d'avantages à utiliser la soulution retenue plutôt que cette structure de données avec $2m$ arcs pour les deux structures de données.
+    
+    L'ordre d'apparition des successeurs dans la liste des successeurs n'importe pas, les structures de données ne tiendront donc pas compte de l'ordre alpha-numérique.
     
 	\section{Implémentation de la structure de données choisie}
 	
@@ -275,16 +278,16 @@
         #define NIL_mc (struct maillon_chemin *) 0
 	\end{lstlisting}
 	
-	De manière schématique, les structures de données ressembleraient donc à :
+	De manière schématique, sur un exemple, les structures de données ressembleraient donc à :
 	\begin{itemize}
-        \item Réseau :\\
-		%\includegraphics[width=0.7\textwidth]{images/}\\
-        \item Graphe Écart :\\
-		%\includegraphics[width=0.7\textwidth]{images/}\\
-        \item Chemin :\\
-		%\includegraphics[width=0.7\textwidth]{images/}\\
-        \item File :\\
-		%\includegraphics[width=0.7\textwidth]{images/}\\
+        \item Réseau : le réseau initial :\\
+		%\includegraphics[width=0.7\textwidth]{images/}\\         4)
+        \item Graphe Écart : le premier graphe d'écart construit à partir du réseau :\\
+		%\includegraphics[width=0.7\textwidth]{images/}\\         5)
+        \item Chemin : le premier chemin améliorant :\\
+		%\includegraphics[width=0.7\textwidth]{images/}\\         6)
+        \item File : la file à la fin de la construction du premier chemin améliorant :\\
+		%\includegraphics[width=0.7\textwidth]{images/}\\         7)
 	\end{itemize}
 	
 	L'arborescence des fichiers est la suivante :
