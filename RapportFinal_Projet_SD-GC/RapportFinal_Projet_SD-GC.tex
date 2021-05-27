@@ -289,6 +289,7 @@
 	
 	L'arborescence des fichiers est la suivante :
 	
+	% --> Batman
 	%\begin{figure}[H]
 		%\captionsetup{justification=centering}
 		%\centering
@@ -315,17 +316,55 @@
 	\lstset{language=bash}
 	\begin{lstlisting}
 		make
+	\end{lstlisting}
+	Commande compilant et faisant les liens d'import. Un fichier `a.out` exécutable est généré. Le programme peut être lancé par exemple des différentes manières suivantes :
+	
+	\begin{lstlisting}
 		./a.out
 		DIMACS/net1.txt
-		DIMACS/
 	\end{lstlisting}
+	Le fichier `result.txt` contient à présent le réseau à 5 sommets de flot maximum.
+	
+	\begin{lstlisting}
+		./a.out
+		DIMACS/net2.txt
+	\end{lstlisting}
+	Le fichier `result.txt` contient à présent le réseau à 6 sommets de flot maximum.
+	
+	\begin{lstlisting}
+		./a.out
+		DIMACS/G_100_300.max
+	\end{lstlisting}
+	Le fichier `result.txt` contient à présent le réseau à 102 sommets de flot maximum.
+	
+	\begin{lstlisting}
+		./a.out
+		DIMACS/G_900_2700.max
+	\end{lstlisting}
+	Le fichier `result.txt` contient à présent le réseau à 902 sommets de flot maximum.
+	
+	\begin{lstlisting}
+		./a.out
+		DIMACS/G_2500_7500.max
+	\end{lstlisting}
+	Le fichier `result.txt` contient à présent le réseau à 2502 sommets de flot maximum.
+	
 	
 	
 	
 	\chapter{Description des exemples traités}
 	
+	Tous les fichiers de graphes fournis se trouvent actuellement dans le répertoire \textbf{DIMACS}.
 	
-	\chapter{Pseudo-Code}
+	Tous les fichiers ayant été donnés ont été traités. Les résultats obtenus sont les suivants :
+	\begin{itemize}
+        \item net1.txt : flot maximum = 40.
+        \item net2.txt : flot maximum = 15.
+        \item G_100_300.max : flot maximum = 9860177.
+        \item G_900_2700.max : flot maximum = 28258807.
+        \item G_2500_7500.max : flot maximum = 42791871.
+	\end{itemize}
+	Les résultats sont bien ceux souhaités.
 	
 	
 	\chapter*{Conclusion}
