@@ -50,11 +50,10 @@
 	showtabs=false,
 	captionpos=b
 }
-\author{\textcolor{Periwinkle}{Caroline Schmid}}
+\author{Badmavasan KIROUCHENASSAMY \& Caroline SCHMID}
 \date{}
-\title{Probabilités 1 IS2A3 : Devoir Maison\\À rendre le \textcolor{MidnightBlue}{Vendredi 04 décembre 2020}}
+\title{Projet tutoré de Structures de Données - Graphes et Combinatoires : Problème du flot maximum}
 \begin{document}
-	\maketitle
 	\pagenumbering{roman}
 	\begin{titlepage}
 		\begin{center}
@@ -90,7 +89,7 @@
 			
 			\vspace*{0.1cm}	        
 			
-			\large{\textit{Auteurs :} \textcolor{EnincerExercice}{Badmavasan KIROUCHENASSAMY\\Caroline SCHMID}}
+			\large{\textit{Auteurs :} {Badmavasan KIROUCHENASSAMY\\Caroline SCHMID}}
 			
 			
 			
@@ -143,7 +142,8 @@
 	Par convention, un graphe est constitué de $n$ sommets et $m$ arcs. On utilisera donc ces notations pour alléger le texte.
 	
 	Pour représenter le réseau, on voit trois structures de données possibles. Elles seront illustrées ici par une représentation graphique basée sur l'exemple du réseau précédent, dans son état initial.
-	
+
+	\pagebreak
 	\begin{enumerate}
 		\item une matrice d'incidence :
 		
@@ -154,7 +154,8 @@
 		
 		Deux tableaux. Le premier tableau de la longueur du nombre d'arc est un tableau de pointeurs pointant vers le premier sommet successeur dans le second tableau. Le second tableau, de la longueur du nombre d'arcs, représente les successeurs des sommets du premier tableau. Les successeurs d'un même sommet sont contigus dans le second tableau.\\
 		\includegraphics[width=0.7\textwidth]{images/tableau_pointeur_succ.png}\\
-		
+
+		\pagebreak
 		\item un tableau de listes de successeurs :
 		
 		Un tableau de listes de successeurs. Chaque case contient une liste. La tête de la liste indique quel est le sommet source et les maillons de la liste sont les successeurs de ce sommet source.\\
@@ -289,16 +290,21 @@
         #define NIL_lc (struct liste_chemin *) 0
         #define NIL_mc (struct maillon_chemin *) 0
 	\end{lstlisting}
-	
+
+	\pagebreak
 	De manière schématique, sur un exemple donné ci dessous, les structures de données ressembleraient donc à :\\
 	\includegraphics[width=0.7\textwidth]{images/R3.png}\\
 	\begin{itemize}
         \item Réseau : le réseau initial :\\
 		\includegraphics[width=0.8\textwidth]{images/sch_reseau.png}\\
+
         \item Graphe Écart : le premier graphe d'écart construit à partir du réseau :\\
 		\includegraphics[width=0.8\textwidth]{images/sch_graphe_ecart.png}\\
+
         \item Chemin : le premier chemin améliorant :\\
 		\includegraphics[width=0.7\textwidth]{images/sch_chemin.png}\\
+
+		\pagebreak
         \item File : la file à la fin de la construction du premier chemin améliorant :\\
 		\includegraphics[width=0.25\textwidth]{images/sch_file.png}\\
 	\end{itemize}
@@ -367,6 +373,8 @@
 	\end{lstlisting}
 	Le fichier `result.txt` contient à présent le réseau à 2502 sommets de flot maximum.
 	
+	Les fonctions \verb|buildGraph|, \verb|buildRG|, \verb|shortestPath|, \verb|minCapa|, \verb|updateFlowInRG|, \verb|updateFlowInNet|, \verb|dinic| et \verb|main| sont décrites en pseudo-code dans un autre fichier.
+	
 	
 	
 	
@@ -393,69 +401,7 @@
 	Améliorations ? Technique ? Personnel ?
 	
 	\chapter*{Bilan personnel}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	\pagebreak
-	
-	\vspace{900px}
-	
-	\rule{1\textwidth}{.8pt}
-	\rule{1\textwidth}{.8pt}
-	
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.9\textwidth]{images/pyoverdin G4R.png}
-		\hspace{2cm}
-		\includegraphics[width=0.5\textwidth]{images/Valinomycin.png}
-	\end{figure}
-	
-	\begin{figure}[H]
-		\captionsetup{justification=centering}
-		\centering
-		\includegraphics[width=0.6\textwidth]{images/ants2m.png}
-	\end{figure}
-	\vspace{0.000000000001cm}
-	\begin{figure}[H]
-		\captionsetup{justification=centering}
-		\centering
-		\includegraphics[width=0.6\textwidth]{images/ants2m-D.png}
-	\end{figure}
-	
-	\begin{itemize}
-		\item "\verb|.|" : Les Smiles contenant des points sont plusieurs polymères, il faut donc couper au niveau du point et traîter séparément chaque polymère (ex:
-		\\"\verb|CC(C)(C)OC(=O)N[C@H](CC1=CC=C(C=C1)I)C(=O)=C.CC(C)(C)|\\\verb|OC(=O)N[C@@H](CC1=CC=C(C=C1)I)C(=O)=C|" devient \\"\verb|CC(C)(C)OC(=O)N[C@H](CC1=CC=C(C=C1)I)C(=O)=C|" et\\  "\verb|CC(C)(C)OC(=O)N[C@@H](CC1=CC=C(C=C1)I)C(=O)=C|" [ici, les deux polymères sont l'isomère l'un de l'autre]).
-	\end{itemize}
-	%\lstset{language=C}
-	\begin{lstlisting}
-		Coverage :
-		0.0 -> 195
-		0.1 -> 0
-		0.2 -> 1
-		0.3 -> 8
-		0.4 -> 1699
-		0.5 -> 315
-		0.6 -> 2375
-		0.7 -> 25427
-		0.8 -> 139092
-		0.9 -> 207199
-		1.0 -> 126079
-		NaN -> 14
-	\end{lstlisting}
-	
-	
-	
-	\begin{figure}[H]
-		\includegraphics[width=0.8\textwidth]{./images/ACs2m.png}
-	\end{figure}
-	La majorité des polymères sont recouverts à plus de 70\% et le taux de couverture de la majorité des polymères est de 0.9.
-	
+	MERCI à Monsieur Forget
 	
 	
 \end{document}
