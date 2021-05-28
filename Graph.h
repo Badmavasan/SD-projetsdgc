@@ -45,6 +45,18 @@ extern void renderResult(char *, struct liste_graph_reseau *,int, int, int, int,
 /*            ----------------------------------------------            */
 
 /*
+ * La fonction imprime le graph réseau d'une manière plus compréhensible
+ * @param1 : le graph réseau à imprimer
+ * @param2 : le fichier dans le quel il faut imrpimer le grpah réseau
+ * @param3 : le nombre de sommets pour parcourir le graph réseau
+ * @return : void : la fonction imrpime le graph et ne fait pas de return
+ */
+
+/*            ----------------------------------------------            */
+extern void renderResultV2(struct liste_graph_reseau*, char *,int,int);
+/*            ----------------------------------------------            */
+
+/*
  * Mise à jour de graph réseau, une fois qu'on a le graph d'écart final
  * On remplace les flots de graph de réseau en fonction des flots de graph d'écart
  * @param1 : un tableau de liste chainée de graph réseau

@@ -65,7 +65,7 @@ struct liste_graph_reseau * buildGraph(char * fichierDimacs, int * source, int *
         if (strcmp(ptr, "n") == 0) {
             ptr = strtok(NULL, delim);
             value = atoi(ptr);
-            
+
             ptr = strtok(NULL, delim);
             if (strcmp(ptr, "s\n") == 0) { // utilisation de strtok coupe la ligne suivante aussi c est pour ca qu'on est obligé d'inclure \n aussi
                 * source = value;
@@ -74,7 +74,7 @@ struct liste_graph_reseau * buildGraph(char * fichierDimacs, int * source, int *
                 * sink = value;
             }
         }
-        
+
         if (strcmp(ptr, "a") == 0 && table_created) {
             ptr = strtok(NULL, delim);
             from = atoi(ptr);
@@ -107,6 +107,17 @@ void imprimer_graph_reseau(struct liste_graph_reseau * tabReseau, int nb_sommets
     printf("\n\n");
 }
 
+static void imprimer_liste_graph_reseau_fichier(struct liste_graph_reseau L,FILE* fptr) {
+    struct maillon_graph_reseau* M;
+    M = L.head;
+
+    while (M!=NIL_mr) {
+        fprintf(fptr,"id : %d flot: %d capacite: %d\n",M->id, M->flot,M->capacite);
+
+        M = M->next;
+    }
+}
+
 int minCapa(struct liste_chemin * LC) {
     int min;
 
@@ -133,7 +144,7 @@ int minCapa(struct liste_chemin * LC) {
 }
 
 
-static int getCapacity(int initial, int terminal, struct liste_graph_ecart * tabEcart) {
+static int getFlot(int initial, int terminal, struct liste_graph_ecart * tabEcart) {
     struct maillon_graph_ecart * parcours;
     parcours = tabEcart[initial - 1].head; /*HYPOTHESE DE DEPART*/
 
@@ -148,6 +159,11 @@ static int getCapacity(int initial, int terminal, struct liste_graph_ecart * tab
         return parcours -> flot_entrant;
     }
 }
+
+
+/*
+ *
+ */
 
 
 static int getFlotFromGraphEc(int initial, int terminal, struct liste_graph_ecart * tabEcart) {
@@ -176,6 +192,21 @@ void updateFlowInNet(struct liste_graph_reseau * tabReseau, struct liste_graph_e
             M = M -> next;
         }
     }
+}
+
+void renderResultV2(struct liste_graph_reseau* tabReseau, char * file_name,int flot,int nb_sommets){
+      FILE *fptr = fopen(file_name, "w");
+      fprintf(fptr,"Graphe Réseau :\n");
+
+      for (int i = 0 ; i < nb_sommets ; i ++) {
+          fprintf(fptr,"sommet : %d\n",i + 1); /* HYPOTHESE DE DEPART*/
+
+          imprimer_liste_graph_reseau_fichier(tabReseau[i],fptr);
+      }
+
+      fprintf(fptr,"\n\n");
+      fprintf(fptr,"Le flot est passé de 0 à %d\n",flot);
+      fclose(fptr);
 }
 
 
@@ -243,7 +274,7 @@ void clear_liste_graph_ecart(struct liste_graph_ecart * tabEcart, int nb_sommets
 
 void clear_liste_graph_reseau(struct liste_graph_reseau * tabReseau, int nb_sommets) {
     for (int i = 0 ; i < nb_sommets ; i ++) {
-        struct maillon_graph_reseau * parcours = tabReseau[i].head;
+        getFlotstruct maillon_graph_reseau * parcours = tabReseau[i].head;
 
         while (parcours != NIL_mr) {
             tabReseau[i].head = parcours -> next;
@@ -277,6 +308,12 @@ struct liste_graph_ecart * buildRG(struct liste_graph_reseau * tabReseau, int nb
     return tabEcart;
 }
 
+/*
+ * FONCTION STATIC
+ * La fonction qui imprime la liste de graph d'écart (la liste corresspond à une case du tableau de graph écart)
+ * @param1 : la liste graph écart à imprimer
+ * @return : void : la fonction imprime juste la liste
+ */
 
 static void imprimer_liste_graph_ecart(struct liste_graph_ecart liste) {
     struct maillon_graph_ecart * parcours = liste.head;
@@ -349,6 +386,17 @@ struct liste_chemin * init_liste_chemin() {
     return liste_chemin;
 }
 
+/*
+ * FONCTION STATIC
+ * Enfiler des successeurs : la fonction creer le file en fonction de table d'écart
+ * pas obliger de parcourir tous le graph, il suffit d'atteindre le sink (condition ligne 405)
+ * @param1 : tabEcart est passé en parametre pour parcourir
+ * @param2 : le file dans le quel les sommets doit etre enfiler
+ * @param3 : sommet_source
+ * @param4 : tableau de predecesseurs
+ * @param5 : sink
+ * @return :
+ */
 
 static bool enfiler_successeurs (struct liste_graph_ecart * tabEcart, struct file * file_f, int sommet_source, int predecesseurs[], int sink) {
     struct maillon_graph_ecart * parcours = tabEcart[sommet_source - 1].head;
@@ -370,6 +418,15 @@ static bool enfiler_successeurs (struct liste_graph_ecart * tabEcart, struct fil
     return flag;
 }
 
+/*
+ * FONCTION STATIC
+ * La fonction fait un ajout en tete de la liste chemin un maillon,
+ * le maillon_chemin est creer à l'intérieur de la fonction et ajouté à la liste
+ * @param1 : la liste chemin dans le quel il faut ajouter un sommet
+ * @param2 : l'identifiant du sommet à ajouter
+ * @param3 : la capcité residual du sommet d'avant et le sommet à ajouter
+ * @return : void : la fonction ajoute un maillon dans la liste
+ */
 
 static void ajout_en_tete_chemin(struct liste_chemin * liste_chemin, int valeur_id_sommet_courant, int capRes) {
     struct maillon_chemin * M = (struct maillon_chemin *) malloc(sizeof(struct maillon_chemin));
@@ -400,18 +457,18 @@ struct liste_chemin * shortestPath(struct liste_graph_ecart * tabEcart, int sour
 
     sommet = defiler(file_f);
 
-    while (!(* fini) && sommet != -1) {
+    while (!(* fini) && sommet != -1) {   */
         * fini = enfiler_successeurs (tabEcart, file_f, sommet, predecesseurs, sink);
         sommet = defiler(file_f);
     }
 
     if (predecesseurs[sink - 1] != 0) {
-        ajout_en_tete_chemin(plus_court_chemin, sink, getCapacity(predecesseurs[sink - 1], sink, tabEcart));
+        ajout_en_tete_chemin(plus_court_chemin, sink, getFlot(predecesseurs[sink - 1], sink, tabEcart));
 
         int prec = predecesseurs[sink - 1];
 
         while (prec != predecesseurs[prec - 1]) {
-            ajout_en_tete_chemin(plus_court_chemin, prec, getCapacity(predecesseurs[prec - 1], prec, tabEcart));
+            ajout_en_tete_chemin(plus_court_chemin, prec, getFlot(predecesseurs[prec - 1], prec, tabEcart));
 
             prec = predecesseurs[prec - 1];
         }
