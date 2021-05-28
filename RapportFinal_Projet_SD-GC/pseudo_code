@@ -191,9 +191,11 @@ Action shortestPath(tabEcart, source, sink, nb_sommets, fini, tabChemin) :
     on ajoute en tête du chemin le sommet puits avec le flot de l'arc entre ce sommet et predecesseurs[sink - 1], son sommet prédécesseur, retrouvé en parcourant le graphe d'écart.
     prec = predecesseurs[sink - 1]
     TantQue while (prec != predecesseurs[prec - 1])
+      on ajoute en tête du chemin le sommet prec avec le flot de l'arc entre ce sommet et predecesseurs[prec - 1], son sommet prédécesseur, retrouvé en parcourant le graphe d'écart.
+      prec = predecesseurs[prec - 1]
     FinTantQue
   FinSi
-
+  on ajoute en tête du chemin le sommet source avec le flot -1 car le sommet ajouté n'a pas de prédécesseur et donc il n'y a pas d'arc pour récupérer un flot.
 FinAction
 
 
