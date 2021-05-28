@@ -21,7 +21,7 @@
  * Le champ next du dernier maillon vaut (struct maillon_graph_ecart*)0
  *
  * Le champ tete d'une liste pointe vers le premier maillon
- * La liste vide est codée par (tete) = ((struct maillon_graph-ecart*)0)
+ * La liste vide est codée par (tete) = ((struct maillon_graph_ecart*)0)
  *
  * Des listes distinctes ont des maillons distincts (pas de maillon partagé).
  *
@@ -43,4 +43,3 @@ struct liste_graph_ecart {
     int id;
     struct maillon_graph_ecart * head;
 };
-
