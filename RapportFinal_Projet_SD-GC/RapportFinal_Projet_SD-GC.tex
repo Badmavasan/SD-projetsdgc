@@ -142,37 +142,50 @@
 	
 	Par convention, un graphe est constitué de $n$ sommets et $m$ arcs. On utilisera donc ces notations pour alléger le texte.
 	
-	Pour représenter le réseau, on voit trois structures de données possibles :
+	Pour représenter le réseau, on voit trois structures de données possibles. Elles seront illustrées ici par une représentation graphique basée sur l'exemple du réseau précédent, dans son état initial.
+	
 	\begin{enumerate}
 		\item une matrice d'incidence :
 		
 		Un tableau de tableaux : chaque case du premier tableau est elle-même un tableau. les sommets sont représentés en lignes et les arcs en colonnes. La case est à $0$ si le sommet n'est pas incident à l'arc, $1$ s'il est source de l'arc et $-1$ s'il est destination de l'arc.\\
-		%\includegraphics[width=0.7\textwidth]{images/Matrice_d-incidence.extension}\\
+		\includegraphics[width=0.7\textwidth]{images/Matrice_incidence.png}\\
 		
 		\item un tableau sommets - successeurs :
 		
-		Deux tableaux.Le premier tableau de la longueur du nombre d'arc est un tableau de pointeurs pointant vers le premier sommet successeur dans le second tableau. Le second tableau, de la longueur du nombre d'arcs, représente les successeurs des sommets du premier tableau. Les successeurs d'un même sommet sont contigus dans le second tableau.\\
-		%\includegraphics[width=0.7\textwidth]{images/Tableau_sommets-successeurs.extension}\\
+		Deux tableaux. Le premier tableau de la longueur du nombre d'arc est un tableau de pointeurs pointant vers le premier sommet successeur dans le second tableau. Le second tableau, de la longueur du nombre d'arcs, représente les successeurs des sommets du premier tableau. Les successeurs d'un même sommet sont contigus dans le second tableau.\\
+		\includegraphics[width=0.7\textwidth]{images/tableau_pointeur_succ.png}\\
 		
 		\item un tableau de listes de successeurs :
 		
 		Un tableau de listes de successeurs. Chaque case contient une liste. La tête de la liste indique quel est le sommet source et les maillons de la liste sont les successeurs de ce sommet source.\\
-		%\includegraphics[width=0.7\textwidth]{images/Tableau_de_listes_de_successeurs.extension}\\
+		\includegraphics[width=0.8\textwidth]{images/tableau_liste_succ.png}\\
 		
 	\end{enumerate}
 	
     Comparons les avantages des trois structures de données sur 3 critères : le coût de stockage en mémoire, le coût de traitement en accès au successeur d'un sommet donné et finalement l'ajout et la suppression d'un successeur d'un sommet donné.
     
     \begin{center}
-        \begin{tabular}{ | c | c | c | c | } 
+        \begin{tabular}{ | p{0.15\textwidth} | p{0.3\textwidth} | p{0.3\textwidth} | p{0.3\textwidth} | } 
             \hline
-            & Matrice d'incidence & Tableau sommets - successeurs & Tableau de listes de successeurs \\
+            	 &
+            	Matrice d'incidence &
+            	Tableau sommets - successeurs &
+            	Tableau de listes de successeurs \\
             \hline
-            Coût de stockage en mémoire & La dimension de la matrice est de $n·m$. L'initialisation du tableau occupe une taille de $n·m$, donc la complexité en coût mémoire vaut $(n·m).sizeof(int)$. & La complexité en coût mémoire de cette structure de donnée est simplement de $n+m$. & Le tableau initial est de taille $n$ et il y a $m$ maillons répartis dans les différentes listes du tableau. Ces structures sont allouées dynamiquement. La complexité en coût mémoire est de nouveau de $n+m$.\\
+            	Coût de stockage en mémoire &
+            	La dimension de la matrice est de $n·m$. L'initialisation du tableau occupe une taille de $n·m$, donc la complexité en coût mémoire vaut $(n·m).sizeof(int)$. &
+            	La complexité en coût mémoire de cette structure de donnée est simplement de $n+m$. &
+            	Le tableau initial est de taille $n$ et il y a $m$ maillons répartis dans les différentes listes du tableau. Ces structures sont allouées dynamiquement. La complexité en coût mémoire est de nouveau de $n+m$.\\
             \hline
-            Coût de traitement en accès au successeur & Il faut parcourir la matrice afin de trouver les successeurs d'un sommet vu que c'est une matrice d'incidence donc on ne peut pas se concentrer sur une seule ligne ou colonne. La complexité est donc de $O(n·m)$. & On a directement l'indice dans le tableau de successeurs en fonction du tableau de sommets. Donc on n'a pas vraiment de traitement à effectuer. La complexité est donc de $O(m)$. & On a une listechaînée donc il y a le coût de parcours des maillons. La complexité est donc de $O(m)$.\\
+            	Coût de traitement en accès au successeur &
+            	Il faut parcourir la matrice afin de trouver les successeurs d'un sommet vu que c'est une matrice d'incidence donc on ne peut pas se concentrer sur une seule ligne ou colonne. La complexité est donc de $O(n·m)$. &
+            	On a directement l'indice dans le tableau de successeurs en fonction du tableau de sommets. Donc on n'a pas vraiment de traitement à effectuer. La complexité est donc de $O(n)$. &
+            	On a une listechaînée donc il y a le coût de parcours des maillons. La complexité est donc de $O(n)$.\\
             \hline
-            Ajout et la suppression d'un successeur & Il faut redimensionner une matrice à 2 dimensions et donc réalouer plus ou moins de mémoire et déplacer les données étant donné qu'elles sont stockées dans des cases contigues (principe du tableau). La complexité et en $O(n·m)$. & Le second tableau, de successeurs, doit être redimensionné et donc il faut potentiellement déplacer le tableau. La complexité de cette opération est en $O(m)$. & L'ajout ou la suppression d'un maillon dans une liste a un coût constant et donc négligeable. Sa complexité est en $O(1)$.\\
+            	Ajout et suppression d'un successeur &
+            	Il faut redimensionner une matrice à 2 dimensions et donc réalouer plus ou moins de mémoire et déplacer les données étant donné qu'elles sont stockées dans des cases contigues (principe du tableau). La complexité et en $O(n·m)$. &
+            	Le second tableau, de successeurs, doit être redimensionné et donc il faut potentiellement déplacer le tableau. La complexité de cette opération est en $O(m)$. &
+            	L'ajout ou la suppression d'un maillon dans une liste a un coût constant et donc négligeable. Sa complexité est en $O(1)$.\\
             \hline
         \end{tabular}
     \end{center}
@@ -181,6 +194,8 @@
     Pour réduir le nombre d'ajout et de suppressions d'arcs dans le graphe d'écart lors de ses mises à jour entre deux itérations de \textbf{DINIC}, on pourrait, lors de la création du graphe à partir du réseau, créer pour chaque sommet dans le graphe un arc avec le flot égalant la capacité de l'arc du graphe et un arc inverse de flot nul. Ça permettrait d'utiliser les arcs déjà construits et ne pas ajouter de nouvel arc ou en retirer un de flot nul.
     
     Nous n'appliquerons pas cette idée car elle permet d'économiser un peu d'espace mémoire. L'espace économisé n'est pas nécessairement important mais il devient significatif lorsque le nombre d'arcs devient grand car on passe de $m$ arcs à $2m$ arcs. On notera que cette solution aurait pu être appliquée au tableau sommets - successeurs et il n'y aurait plus eu d'avantages à utiliser la soulution retenue plutôt que cette structure de données avec $2m$ arcs pour les deux structures de données.
+    
+    L'ordre d'apparition des successeurs dans la liste des successeurs n'importe pas, les structures de données ne tiendront donc pas compte de l'ordre alpha-numérique.
     
 	\section{Implémentation de la structure de données choisie}
 	
@@ -275,16 +290,17 @@
         #define NIL_mc (struct maillon_chemin *) 0
 	\end{lstlisting}
 	
-	De manière schématique, les structures de données ressembleraient donc à :
+	De manière schématique, sur un exemple donné ci dessous, les structures de données ressembleraient donc à :\\
+	\includegraphics[width=0.7\textwidth]{images/R3.png}\\
 	\begin{itemize}
-        \item Réseau :\\
-		%\includegraphics[width=0.7\textwidth]{images/}\\
-        \item Graphe Écart :\\
-		%\includegraphics[width=0.7\textwidth]{images/}\\
-        \item Chemin :\\
-		%\includegraphics[width=0.7\textwidth]{images/}\\
-        \item File :\\
-		%\includegraphics[width=0.7\textwidth]{images/}\\
+        \item Réseau : le réseau initial :\\
+		\includegraphics[width=0.8\textwidth]{images/sch_reseau.png}\\
+        \item Graphe Écart : le premier graphe d'écart construit à partir du réseau :\\
+		\includegraphics[width=0.8\textwidth]{images/sch_graphe_ecart.png}\\
+        \item Chemin : le premier chemin améliorant :\\
+		\includegraphics[width=0.7\textwidth]{images/sch_chemin.png}\\
+        \item File : la file à la fin de la construction du premier chemin améliorant :\\
+		\includegraphics[width=0.25\textwidth]{images/sch_file.png}\\
 	\end{itemize}
 	
 	L'arborescence des fichiers est la suivante :
@@ -298,11 +314,13 @@
 	
 	La descritpion de la file ainsi que les déclarations des fonctions applicables dessus se trouvent dans le ficher \verb|File.h| et ses fonctions sont décrites dans le fichier \verb|File.c|.
 	
-	Le réseau et le graphe d'écart sont tout deux des graphes et le chemin est construit à partir d'un graphe donc les fonctions dépendant de ces 3 structures de données sont contenues dans le ficher \verb|Graph.c|. Ce dernier importe 4 fichiers d'entête : \verb|GraphReseau.h|, \verb|GraphEcart.h| et \verb|Chemin.h| contenant la description des structures de données respectives. Le 4ième fichier importé est \verb|Graph.c|, contenant la déclaration des fonctions produites dans le fichier \verb|Graph.c|.
+	Le réseau et le graphe d'écart sont tout deux des graphes et le chemin est construit à partir d'un graphe donc les fonctions dépendant de ces 3 structures de données sont contenues dans le ficher \verb|Graph.c|. Ce dernier importe 4 fichiers d'entête : \verb|GraphReseau.h|, \verb|GraphEcart.h| et \verb|Chemin.h| contenant la description des structures de données respectives. Le dernier fichier importé est \verb|Graph.c|, contenant la déclaration des fonctions produites dans le fichier \verb|Graph.c|.
 	
 	Enfin, \verb|Dinic.h| contient la signature de la fonction programmée dans le fichier \verb|Dinic.c| et \verb|main.c| fait tourner le programme et maximise le flot du réseau donné en paramètres.
 	
 	Ainsi, la File est importée dans le Chemin pour permettre de trouver le plus court chemin, le Chemin, le Graphe Écart et le Réseau sont importés dans le Graphe, le Graphe est importé dans Dinic et enfin Dinic est importé dans le main.
+	
+	\verb|File.h| étant importé par tout les autres fichiers directement ou indirectement, toutes les inclusions de librairies sont faites dans ce fichier.
 	
 	\chapter{Mode d'emploi}
 	
@@ -360,10 +378,11 @@
 	\begin{itemize}
         \item net1.txt : flot maximum = 40.
         \item net2.txt : flot maximum = 15.
-        \item G_100_300.max : flot maximum = 9860177.
-        \item G_900_2700.max : flot maximum = 28258807.
-        \item G_2500_7500.max : flot maximum = 42791871.
+        \item G\_100\_300.max : flot maximum = 9860177.
+        \item G\_900\_2700.max : flot maximum = 28258807.
+        \item G\_2500\_7500.max : flot maximum = 42791871.
 	\end{itemize}
+
 	Les résultats sont bien ceux souhaités.
 	
 	

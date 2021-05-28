@@ -65,7 +65,7 @@ struct liste_graph_reseau * buildGraph(char * fichierDimacs, int * source, int *
         if (strcmp(ptr, "n") == 0) {
             ptr = strtok(NULL, delim);
             value = atoi(ptr);
-
+            
             ptr = strtok(NULL, delim);
             if (strcmp(ptr, "s\n") == 0) { // utilisation de strtok coupe la ligne suivante aussi c est pour ca qu'on est obligé d'inclure \n aussi
                 * source = value;
@@ -74,7 +74,7 @@ struct liste_graph_reseau * buildGraph(char * fichierDimacs, int * source, int *
                 * sink = value;
             }
         }
-
+        
         if (strcmp(ptr, "a") == 0 && table_created) {
             ptr = strtok(NULL, delim);
             from = atoi(ptr);
