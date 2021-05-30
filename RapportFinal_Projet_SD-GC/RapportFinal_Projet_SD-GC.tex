@@ -184,17 +184,17 @@
             	\textcolor{OliveGreen}{On a une liste chaînée donc il y a le coût de parcours des maillons. La complexité est donc de $O(n)$.}\\
             \hline
             	Ajout et suppression d'un successeur &
-            	\textcolor{BrickRed}{Il faut redimensionner une matrice à 2 dimensions et donc réalouer plus ou moins de mémoire et déplacer les données étant donné qu'elles sont stockées dans des cases contigues (principe du tableau). La complexité et en $O(n \times m)$.} &
-            	\textcolor{Orange}{Le second tableau, de successeurs, doit être redimensionné et donc il faut potentiellement déplacer le tableau. La complexité de cette opération est en $O(m)$.} &
+            	\textcolor{BrickRed}{Il faut redimensionner une matrice à 2 dimensions et donc réalouer plus ou moins de mémoire, et déplacer les données étant donné qu'elles sont stockées dans des cases contigues (principe du tableau). La complexité est en $O(n \times m)$.} &
+            	\textcolor{Orange}{Le second tableau, de successeurs, doit être redimensionné, donc il faut potentiellement déplacer le tableau. La complexité de cette opération est en $O(m)$.} &
             	\textcolor{OliveGreen}{L'ajout ou la suppression d'un maillon dans une liste a un coût constant et donc négligeable. Sa complexité est en $O(1)$.}\\
             \hline
         \end{tabular}
     \end{center}
-    La structure de données correspondant le plus aux opérations que l'algorithme de \textbf{DINIC} nécessite est la structure de données en tableau de listes de successeurs étant donné que pour le coût de stockage en mémoire et pour le coût de traitement en accès au successeur, la complexité est la même entre cette solution et le tableau sommets - successeurs et qu'elle a une complexité plus faible en ajout et la suppression d'un successeur que cette dernière. La matrice d'incidence à une complexité largement moins bonne que celle du tableau de listes de successeurs sur les différents critères.
+    La structure de données correspondant le plus aux opérations que l'algorithme de \textbf{DINIC} nécessite est la structure de données en tableau de listes de successeurs, étant donné que pour le coût de stockage en mémoire et pour le coût de traitement en accès au successeur la complexité est la même entre cette solution et le tableau sommets - successeurs et qu'elle a une complexité plus faible en ajout et en suppression d'un successeur que cette dernière. La matrice d'incidence à une complexité largement moins bonne que celle du tableau de listes de successeurs sur les différents critères.
     
-    Pour réduir le nombre d'ajout et de suppressions d'arcs dans le graphe d'écart lors de ses mises à jour entre deux itérations de \textbf{DINIC}, on pourrait, lors de la création du graphe à partir du réseau, créer pour chaque sommet dans le graphe un arc avec le flot égalant la capacité de l'arc du graphe et un arc inverse de flot nul. Ça permettrait d'utiliser les arcs déjà construits et ne pas ajouter de nouvel arc ou en retirer un de flot nul.
+    Pour réduir le nombre d'ajout et de suppressions d'arcs dans le graphe d'écart, lors de ses mises à jour entre deux itérations de \textbf{DINIC}, on pourrait, lors de la création du graphe à partir du réseau, créer pour chaque sommet dans le graphe un arc avec le flot égalant la capacité de l'arc du graphe et un arc inverse de flot nul. Ça permettrait d'utiliser les arcs déjà construits et de ne pas ajouter de nouvel arc ou d'en retirer un de flot nul.
     
-    Nous n'appliquerons pas cette idée car elle permet d'économiser un peu d'espace mémoire. L'espace économisé n'est pas nécessairement important mais il devient significatif lorsque le nombre d'arcs devient grand car on passe de $m$ arcs à $2m$ arcs. On notera que cette solution aurait pu être appliquée au tableau sommets - successeurs et il n'y aurait plus eu d'avantages à utiliser la soulution retenue plutôt que cette structure de données avec $2m$ arcs pour les deux structures de données.
+    Nous n'appliquerons pas cette idée car elle utilise beaucoup d'espace mémoire souvent inutil. L'espace économisé n'est pas nécessairement important, mais il devient significatif lorsque le nombre d'arcs devient grand car on passe approximativement de $m$ arcs à $2 \times m$ arcs. On notera que cette solution aurait pu être appliquée au tableau sommets - successeurs et il n'y aurait plus eu d'avantages à utiliser la soulution retenue plutôt que cette structure de données avec $2 \times m$ arcs pour les deux structures de données.
     
     L'ordre d'apparition des successeurs dans la liste des successeurs n'importe pas, les structures de données ne tiendront donc pas compte de l'ordre alpha-numérique.
     
@@ -202,8 +202,8 @@
 	
 	Pour dérouler l'algorithme de \textbf{DINIC} et trouver le flot maximum du réseau donné, on utilisera 4 structures de données : 
 	\begin{enumerate}
-		\item Une liste, et ses maillons, représentant les successeurs d'un sommet dans le réseau (listes constituant le tableau de de listes de successeurs).
-		\item Une liste, et ses maillons, représentant les successeurs d'un sommet dans le graphe d'écart (listes constituant le tableau de de listes de successeurs).
+		\item Une liste, et ses maillons, représentant les successeurs d'un sommet dans le réseau (listes constituant le tableau de listes de successeurs).
+		\item Une liste, et ses maillons, représentant les successeurs d'un sommet dans le graphe d'écart (listes constituant le tableau de listes de successeurs).
 		\item Une liste, et ses maillons, représentant les sommets constituant le plus court chemin en nombre d'arcs permettant d'améliorer le flot d'un graphe donné.
 		\item Une file permettant de trouver le plus court chemin en nombre d'arcs dans un graphe donné.
 	\end{enumerate}
@@ -292,7 +292,7 @@
 	\end{lstlisting}
 
 	\pagebreak
-	De manière schématique, sur un exemple donné ci dessous, les structures de données ressembleraient donc à :\\
+	De manière schématique, sur un exemple donné ci-dessous, les structures de données ressembleraient donc à :\\
 	\includegraphics[width=0.7\textwidth]{images/R3.png}\\
 	\begin{itemize}
         \item Réseau : le réseau initial :\\
@@ -322,7 +322,7 @@
 	
 	Le réseau et le graphe d'écart sont tout deux des graphes et le chemin est construit à partir d'un graphe donc les fonctions dépendant de ces 3 structures de données sont contenues dans le ficher \verb|Graph.c|. Ce dernier importe 4 fichiers d'entête : \verb|GraphReseau.h|, \verb|GraphEcart.h| et \verb|Chemin.h| contenant la description des structures de données respectives. Le dernier fichier importé est \verb|Graph.c|, contenant la déclaration des fonctions produites dans le fichier \verb|Graph.c|.
 	
-	Enfin, \verb|Dinic.h| contient la signature de la fonction programmée dans le fichier \verb|Dinic.c| et \verb|main.c| fait tourner le programme et maximise le flot du réseau donné en paramètres.
+	Enfin, \verb|Dinic.h| contient la signature de la fonction programmée dans le fichier \verb|Dinic.c|, et \verb|main.c| fait tourner le programme et maximise le flot du réseau donné en paramètres.
 	
 	Ainsi, la File est importée dans le Chemin pour permettre de trouver le plus court chemin, le Chemin, le Graphe Écart et le Réseau sont importés dans le Graphe, le Graphe est importé dans Dinic et enfin Dinic est importé dans le main.
 	
@@ -334,7 +334,7 @@
 	
 	On va donc exécuter notre programme sur ce réseau pour maximiser le flot et obtenir un nouveau fichier $result.txt$ en sortie, contenant la description du réseau de flot maximum ainsi que le flot maximum final.
 	
-	Pour lancer le programme, un \verb|MAKEFILE| est mis à disposition pour gérer la compilation. La compilation se résume donc à lancer un terminal dans le répertoir courant et lancer la commande \verb|make|. Cette commande exécute les commandes de compilation et liens avec les options \verb|-Wall| et \verb|-g|. On obtient ainsi tout les warnings et on peut lancer le programme sous un débuger comme \verb|gdb|. Le compilateur utilisé est \verb|gcc|. L'exécutable produit est \verb|a.out|.
+	Pour lancer le programme, un \verb|MAKEFILE| est mis à disposition pour gérer la compilation. La compilation se résume donc à lancer un terminal dans le répertoir courant et lancer la commande \verb|make|. Cette commande exécute les commandes de compilation et liens avec les options \verb|-Wall| et \verb|-g|. On obtient ainsi tout les warnings et on peut lancer le programme sous un débogueur comme \verb|gdb|. Le compilateur utilisé est \verb|gcc|. L'exécutable produit est \verb|a.out|.
 	
 	Le programme nécessite un fichier en entrée, fournissant le réseau initial. Il faut saisir les chemin et le nom du fichier en question. On peut donc exécuter les lignes suivantes :
 	\lstset{language=bash}
@@ -396,7 +396,7 @@
 	
 	\chapter*{Conclusion}
 	\pagenumbering{Alph}
-	penser plus tôt à utiliser un débuger, type gdb.
+	penser plus tôt à utiliser un débogueur, type gdb.
 	
 	Améliorations ? Technique ? Personnel ?
 	
