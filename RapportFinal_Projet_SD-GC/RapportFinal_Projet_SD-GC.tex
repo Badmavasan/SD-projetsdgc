@@ -190,7 +190,8 @@
             \hline
         \end{tabular}
     \end{center}
-    La structure de données correspondant le plus aux opérations que l'algorithme de \textbf{DINIC} nécessite est la structure de données en tableau de listes de successeurs, étant donné que pour le coût de stockage en mémoire et pour le coût de traitement en accès au successeur la complexité est la même entre cette solution et le tableau sommets - successeurs et qu'elle a une complexité plus faible en ajout et en suppression d'un successeur que cette dernière. La matrice d'incidence à une complexité largement moins bonne que celle du tableau de listes de successeurs sur les différents critères.
+	
+	Par ce tableau, on se rend compte que, pour le tableau sommets - successeurs et le tableau de listes de successeurs, leurs complexités sont les mêmes en stockage mémoire et en accès au successeur. Cependant, la deuxième structure de donnée à une complexité an ajout et suppression de successeurs plus faible que la première stucture de donnée. On abandonne donc l'idée d'implémenter la première structure de données. La matrice d'incidence à une complexité largement moins bonne que celle du tableau de listes de successeurs sur les différents critères. Pour résoudre le problème de maximisation de flot par l'algorithme de \textbf{DINIC}, nous allons donc utiliser la structure de données de tableau de listes de successeurs.
     
     Pour réduir le nombre d'ajout et de suppressions d'arcs dans le graphe d'écart, lors de ses mises à jour entre deux itérations de \textbf{DINIC}, on pourrait, lors de la création du graphe à partir du réseau, créer pour chaque sommet dans le graphe un arc avec le flot égalant la capacité de l'arc du graphe et un arc inverse de flot nul. Ça permettrait d'utiliser les arcs déjà construits et de ne pas ajouter de nouvel arc ou d'en retirer un de flot nul.
     
