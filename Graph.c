@@ -4,6 +4,17 @@
 
 
 /* Reseau */
+
+/*
+ * FONCTION STATIC
+ * La fonction permet d'ajouter en tete de liste de successeurs d'un sommet.
+ * liste_graph_reseau contient deja le sommet de départ, dans la liste on enchaine
+ * des des succsuers de ce sommet avec capacité (qui est passé en parametre)
+ * @param1 : me sommet d'arrivé
+ * @param2 : capacité de l'arcs
+ * @param3 : La liste dans le quel il faut ajouter en ete est passé en parametre
+ * @return : void : la fonction fait qu'un ajout en tete donc cette fonction ne fait pas de return
+ */
 static void ajout_en_tete_graph_reseau(int terminal, int cap, struct liste_graph_reseau * T){
     struct maillon_graph_reseau * nouveau = (struct maillon_graph_reseau *) malloc(sizeof(struct maillon_graph_reseau));
 
@@ -15,6 +26,14 @@ static void ajout_en_tete_graph_reseau(int terminal, int cap, struct liste_graph
     T -> head = nouveau;
 }
 
+/*
+ * FONCTION STATIC
+ * La fonction permet d'imprimer un grpah d'ecart dans la console
+ * La fonction imprime la liste des successeurs d'un sommet donc c'est une case de tabReseau
+ * C'est une sous-fontion de imprimer_graph_reseau
+ * @param1 : la liste de successeurs à imprimer est passé en parametre
+ * @return : void : cette fonction affiche les donné dans la console de ne fait aucun return
+ */
 
 static void imprimer_liste_graph_reseau(struct liste_graph_reseau L) {
     struct maillon_graph_reseau* M;
@@ -107,6 +126,15 @@ void imprimer_graph_reseau(struct liste_graph_reseau * tabReseau, int nb_sommets
     printf("\n\n");
 }
 
+/*
+ * FONCTION STATIC
+ * La fonction est une fonction modifié de imprimer_liste_graph_reseau
+ * Au lieu d'imprimer à la console, cette fonction imprime la liste de successeurs d'un sommet est imprimé dans le fichier
+ * @param1 : la liste de successeurs d'un sommet (une case de tabReseau)
+ * @param2 : le fichier dans le quel il faut imprimer les valeurs
+ * @return : void : la fonction imprime les valeurs dans le fichier et ne fait aucun return
+ */
+
 static void imprimer_liste_graph_reseau_fichier(struct liste_graph_reseau L,FILE* fptr) {
     struct maillon_graph_reseau* M;
     M = L.head;
@@ -143,6 +171,13 @@ int minCapa(struct liste_chemin * LC) {
     return min;
 }
 
+/*
+ * FONCTION STATIC
+ * La fonction cherche le flot d'un arc dans le grpah d'écart en fonction de sommet de départ et sommet d'arrivé
+ * @param1 : sommet de départ
+ * @param2 : sommet d'arrivé
+ * @param3 : le graph d'écart est passé en paramtre pour parcourir le graph et trouver le flot
+ */
 
 static int getFlot(int initial, int terminal, struct liste_graph_ecart * tabEcart) {
     struct maillon_graph_ecart * parcours;
@@ -160,35 +195,13 @@ static int getFlot(int initial, int terminal, struct liste_graph_ecart * tabEcar
     }
 }
 
-
-/*
- *
- */
-
-
-static int getFlotFromGraphEc(int initial, int terminal, struct liste_graph_ecart * tabEcart) {
-    struct maillon_graph_ecart * M = tabEcart[terminal - 1].head;
-
-    while (M != NIL_mge && M -> id != initial) {
-        M = M -> next;
-    }
-
-    if (M != NIL_mge) {
-        return M -> flot_entrant;
-    }
-    else {
-        return 0;
-    }
-}
-
-
 void updateFlowInNet(struct liste_graph_reseau * tabReseau, struct liste_graph_ecart * tabEcart, int nb_sommets) {
     struct maillon_graph_reseau * M;
     for (int i = 0 ; i < nb_sommets ; i ++) {
         M = tabReseau[i].head;
 
         while (M != NIL_mr) {
-            M -> flot = getFlotFromGraphEc(i + 1, M -> id, tabEcart);
+            M -> flot = getFlot(M -> id, i + 1, tabEcart);
             M = M -> next;
         }
     }
@@ -211,11 +224,30 @@ void renderResultV2(struct liste_graph_reseau* tabReseau, char * file_name,int f
 
 
 /* GrapheEcart */
-static void init_liste_graph_ecart(struct liste_graph_ecart * liste, int valeur_id_sommet_init) {
+
+/*
+ * FONCTION STATIC
+ * La fonction permet d'initialiser les attributs de graph d'écart
+ * head est initialiser à NIL_maillon_graph_ecart
+ * id est initialiser a la valeur du sommet
+ * @param1 : la liste de succsseurs est passé en paramtre qui contient le sommet de source (accessible via id)
+ * @param2 : la valeur du sommet à initialiser est passé en paramtere
+ * @return : void : ne fait pas de return, il initialise juste le graph d'écart à valeur de défault
+ */
+
+static void init_liste_graph_ecart(struct liste_graph_ecart * liste, int valeur_id_sommet_init){
     liste -> head = NIL_mge;
     liste -> id = valeur_id_sommet_init;
 }
 
+/*
+ * FONCTION STATIC
+ * La fonction fait un ajout en tete d'un sommet succsuer dans une liste de successeurs de graph d'écart
+ * @param1 : la liste du sommet dans la quelle on veut ajouter un sommet succsuer (une case du tableau tabEcart)
+ * @param2 : sommet succsuer (identifiant)
+ * @param3 : le flot de l'arc entre le sommet d'origine et le sommet succsuer
+ * @return : void : il fait qu'un ajout en tete
+ */
 
 static void ajout_en_tete_graph_ecart(struct liste_graph_ecart * liste, int valeur_id_sommet_courant, int valeur_flot_sommet_courant) {
     struct maillon_graph_ecart * M = (struct maillon_graph_ecart *) malloc(sizeof(struct maillon_graph_ecart));
@@ -225,6 +257,14 @@ static void ajout_en_tete_graph_ecart(struct liste_graph_ecart * liste, int vale
     liste -> head = M;
 }
 
+/*
+ * FONCTION STATIC
+ * La fonction ser utilisé pour enlever les arcs de graph d'écart pour lesquels le flot passe à 0
+ * @param1 : la liste de succsuer d'un sommet est passé en paramtre
+ * @param2 : sommet d'arrivé à enlever
+ * en fonction de id de la liste et id de maillon à enlever on a retirer l'arc
+ * @return : void : c'est une fonction qui retire un maillon d'une liste chainée donc pas de return
+ */
 
 static void retirer_de_la_liste(struct liste_graph_ecart * liste, int id_sommet_a_retirer) {
     struct maillon_graph_ecart * M;
@@ -274,7 +314,7 @@ void clear_liste_graph_ecart(struct liste_graph_ecart * tabEcart, int nb_sommets
 
 void clear_liste_graph_reseau(struct liste_graph_reseau * tabReseau, int nb_sommets) {
     for (int i = 0 ; i < nb_sommets ; i ++) {
-        getFlotstruct maillon_graph_reseau * parcours = tabReseau[i].head;
+        struct maillon_graph_reseau * parcours = tabReseau[i].head;
 
         while (parcours != NIL_mr) {
             tabReseau[i].head = parcours -> next;
@@ -380,6 +420,7 @@ void updateFlowInRG(struct liste_chemin * chemin, struct liste_graph_ecart * tab
 
 
 /* Chemin */
+
 struct liste_chemin * init_liste_chemin() {
     struct liste_chemin * liste_chemin = (struct liste_chemin *) malloc(sizeof(struct liste_chemin));
     liste_chemin -> head = NIL_mc;
@@ -457,7 +498,7 @@ struct liste_chemin * shortestPath(struct liste_graph_ecart * tabEcart, int sour
 
     sommet = defiler(file_f);
 
-    while (!(* fini) && sommet != -1) {   */
+    while (!(* fini) && sommet != -1) {
         * fini = enfiler_successeurs (tabEcart, file_f, sommet, predecesseurs, sink);
         sommet = defiler(file_f);
     }
