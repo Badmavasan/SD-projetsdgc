@@ -107,19 +107,19 @@
 	\pagenumbering{arabic}
 	Pour résoudre un problème de flot maximum, plusieurs algorithmes peuvent être mis en œuvre. Nous étudions ici la mise en place de l'algorithme de \textbf{DINIC} ainsi que les structures de données nécessaires et l'arborescence des fichiers.
 	
-	Le problème de flot maximum consiste en trouver le flot le plus élevé que l'on puisse faire passer dans un Réseau en respectant les capacités de chaque arc, soit le flot maximum que l'on puisse faire passer par chaque arc.
+	Le problème de flot maximum consiste à trouver le flot le plus élevé que l'on peut faire passer dans un réseau en respectant les capacités de chaque arc, soit le flot maximum que l'on peut faire passer par chaque arc.
 	
-	L'algorithme de \textbf{DINIC} permet, à partir d'un flot initial, de rechercher une chaîne améliorante dans un réseau de façon à construire un flot de valeur supérieure. En réitérant cette opération un certain nombre de fois, le flot que l'on obtient devient maximum. L'algrithme prend en paramètre un graphe d'écart, il faut donc trnsformer le réseau du problème de flot maximum en un graphe d'écart pour trouver le flot maximum et revenir à un réseau répondant au problème posé.
+	L'algorithme de \textbf{DINIC} permet, à partir d'un flot initial, de rechercher une chaîne améliorante dans un réseau de façon à construire un flot de valeur supérieure. En réitérant cette opération un certain nombre de fois, le flot que l'on obtient devient maximum. L'algrithme prend en paramètre un graphe d'écart, il faut donc transformer le réseau du problème de flot maximum en un graphe d'écart pour trouver le flot maximum et revenir à un réseau répondant au problème posé.
 	
-	On considère que le flot initial est de 0 et que les sommets sont au nombre de $n$ et numérotés de $1$ à $n$.
+	On considère que le flot initial est de 0 et que les sommets sont numérotés de $1$ à $n$, $n$ étant le nombre de sommets.
 	
 	
 	
 	\chapter{Analyse}
 	\section{Représentation des données}
-	La chaîne améliorante de l'algorithme de \textbf{DINIC} est la chaine du plus court chemin en nombre d'arcs et sera trouvée donc par l'algorithme de parcours en largeur. Étant donné que ce dernier algorithme génère l'arborescence donnant le plus court chemin en nombre d'arc, on l'utilise pour trouver la chaîne améliorante de l'algorithme de \textbf{DINIC}.
+	La chaîne améliorante de l'algorithme de \textbf{DINIC} est la chaîne du plus court chemin en nombre d'arcs et sera donc trouvée par l'algorithme de parcours en largeur. Étant donné que ce dernier algorithme génère l'arborescence donnant le plus court chemin en nombre d'arc, on l'utilise pour trouver la chaîne améliorante de l'algorithme de \textbf{DINIC}.
 	
-	L’algorithme de parcours en largeur est un algorithme parcourant le graphe par couches. Les sommets de la couche $n$ sont à une distance $n$ du sommet source. L’exploration commence donc par la source, puis ses successeurs, puis les successeurs de ses successeurs, ... jusqu’à explorer le sommet puits et on sait alors que l’on peut s’arrêter. Grâce à un tableau répertoriant les prédécesseurs des sommets marqués (par convention, le sommet prédécesseur du sommet source est lui-même), on peut retrouver le chemin le plus court en nombre d'arcs menant d’un sommet à un autre (ici, menant du sommet source au sommet puits).
+	L’algorithme de parcours en largeur est un algorithme parcourant le graphe par couches. Les sommets de la couche $n$ sont à une distance $n$ du sommet source. L’exploration commence donc par la source, puis ses successeurs, puis les successeurs de ses successeurs, ... jusqu’à explorer le sommet puits, on sait alors que l’on peut s’arrêter. Grâce à un tableau répertoriant les prédécesseurs des sommets marqués (par convention, le sommet prédécesseur du sommet source est lui-même), on peut retrouver le chemin le plus court en nombre d'arcs menant d’un sommet à un autre (ici, menant du sommet source au sommet puits).
 	
 	Voici le déroulement de l'algorithme de \textbf{DINIC} sur un réseau à 5 sommets et 7 arcs :
 	\begin{enumerate}
@@ -145,18 +145,18 @@
 
 	\pagebreak
 	\begin{enumerate}
-		\item une matrice d'incidence :
+		\item Une matrice d'incidence :
 		
 		Un tableau de tableaux : chaque case du premier tableau est elle-même un tableau. les sommets sont représentés en lignes et les arcs en colonnes. La case est à $0$ si le sommet n'est pas incident à l'arc, $1$ s'il est source de l'arc et $-1$ s'il est destination de l'arc.\\
 		\includegraphics[width=0.7\textwidth]{images/Matrice_incidence.png}\\
 		
-		\item un tableau sommets - successeurs :
+		\item Un tableau sommets - successeurs :
 		
 		Deux tableaux. Le premier tableau de la longueur du nombre d'arc est un tableau de pointeurs pointant vers le premier sommet successeur dans le second tableau. Le second tableau, de la longueur du nombre d'arcs, représente les successeurs des sommets du premier tableau. Les successeurs d'un même sommet sont contigus dans le second tableau.\\
 		\includegraphics[width=0.7\textwidth]{images/tableau_pointeur_succ.png}\\
 
 		\pagebreak
-		\item un tableau de listes de successeurs :
+		\item Un tableau de listes de successeurs :
 		
 		Un tableau de listes de successeurs. Chaque case contient une liste. La tête de la liste indique quel est le sommet source et les maillons de la liste sont les successeurs de ce sommet source.\\
 		\includegraphics[width=0.8\textwidth]{images/tableau_liste_succ.png}\\
@@ -174,19 +174,19 @@
             	Tableau de listes de successeurs \\
             \hline
             	Coût de stockage en mémoire &
-            	La dimension de la matrice est de $n·m$. L'initialisation du tableau occupe une taille de $n·m$, donc la complexité en coût mémoire vaut $(n·m).sizeof(int)$. &
-            	La complexité en coût mémoire de cette structure de donnée est simplement de $n+m$. &
-            	Le tableau initial est de taille $n$ et il y a $m$ maillons répartis dans les différentes listes du tableau. Ces structures sont allouées dynamiquement. La complexité en coût mémoire est de nouveau de $n+m$.\\
+            	\textcolor{BrickRed}{La dimension de la matrice est de $(n \times m)$. L'initialisation du tableau occupe une taille de $(n \times m)$, donc la complexité en coût mémoire vaut $(n \times m) \times sizeof(int)$.} &
+            	\textcolor{OliveGreen}{La complexité en coût mémoire de cette structure de donnée est simplement de $(n+m)$.} &
+	            \textcolor{OliveGreen}{Le tableau initial est de taille $n$ et il y a $m$ maillons répartis dans les différentes listes du tableau. Ces structures sont allouées dynamiquement. La complexité en coût mémoire est de nouveau de $(n + m)$.}\\
             \hline
             	Coût de traitement en accès au successeur &
-            	Il faut parcourir la matrice afin de trouver les successeurs d'un sommet vu que c'est une matrice d'incidence donc on ne peut pas se concentrer sur une seule ligne ou colonne. La complexité est donc de $O(n·m)$. &
-            	On a directement l'indice dans le tableau de successeurs en fonction du tableau de sommets. Donc on n'a pas vraiment de traitement à effectuer. La complexité est donc de $O(n)$. &
-            	On a une listechaînée donc il y a le coût de parcours des maillons. La complexité est donc de $O(n)$.\\
+            	\textcolor{BrickRed}{Il faut parcourir la matrice afin de trouver les successeurs d'un sommet vu que c'est une matrice d'incidence donc on ne peut pas se concentrer sur une seule ligne ou colonne. La complexité est donc de\hspace{1cm} $O(n \times m)$.} &
+            	\textcolor{OliveGreen}{On a directement l'indice dans le tableau de successeurs en fonction du tableau de sommets. Donc on n'a pas vraiment de traitement à effectuer. La complexité est donc de $O(n)$.} &
+            	\textcolor{OliveGreen}{On a une liste chaînée donc il y a le coût de parcours des maillons. La complexité est donc de $O(n)$.}\\
             \hline
             	Ajout et suppression d'un successeur &
-            	Il faut redimensionner une matrice à 2 dimensions et donc réalouer plus ou moins de mémoire et déplacer les données étant donné qu'elles sont stockées dans des cases contigues (principe du tableau). La complexité et en $O(n·m)$. &
-            	Le second tableau, de successeurs, doit être redimensionné et donc il faut potentiellement déplacer le tableau. La complexité de cette opération est en $O(m)$. &
-            	L'ajout ou la suppression d'un maillon dans une liste a un coût constant et donc négligeable. Sa complexité est en $O(1)$.\\
+            	\textcolor{BrickRed}{Il faut redimensionner une matrice à 2 dimensions et donc réalouer plus ou moins de mémoire et déplacer les données étant donné qu'elles sont stockées dans des cases contigues (principe du tableau). La complexité et en $O(n \times m)$.} &
+            	\textcolor{Orange}{Le second tableau, de successeurs, doit être redimensionné et donc il faut potentiellement déplacer le tableau. La complexité de cette opération est en $O(m)$.} &
+            	\textcolor{OliveGreen}{L'ajout ou la suppression d'un maillon dans une liste a un coût constant et donc négligeable. Sa complexité est en $O(1)$.}\\
             \hline
         \end{tabular}
     \end{center}
